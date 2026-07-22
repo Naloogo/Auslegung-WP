@@ -9,7 +9,7 @@
     --bg:#f4f3ee; --card:#ffffff; --surface:#faf9f5;
     --text:#23231f; --text-2:#5f5e57; --text-3:#8a897f;
     --border:#e2e0d6; --border-strong:#cfcdbf;
-    --accent:#0f6e56; --accent-bg:#e1f5ee; --accent-text:#0f6e56;
+    --accent:#1a2b4a; --accent-bg:#e6ebf3; --accent-text:#1a2b4a;
     --warn:#854f0b; --warn-bg:#faeeda;
     --danger:#a32d2d; --danger-bg:#fcebeb;
     --success:#3b6d11; --success-bg:#eaf3de;
@@ -113,7 +113,7 @@
   }
   .mini-btn:hover{background:var(--surface);}
   .mini-btn.accent{background:var(--accent); color:#fff; border-color:var(--accent);}
-  .mini-btn.accent:hover{background:#0c5a47;}
+  .mini-btn.accent:hover{background:#12203a;}
   .uwert-hint{font-size:11px; color:var(--text-3); margin-top:4px;}
   .verteiler-row{display:flex; align-items:center; gap:10px; margin-bottom:10px;}
   .verteiler-row .vt-name{flex:1.4; height:38px; padding:0 11px; font-size:14px; font-family:var(--font); color:var(--text); background:var(--card); border:1px solid var(--border-strong); border-radius:var(--radius); outline:none;}
@@ -121,10 +121,10 @@
   .verteiler-row .vt-del{width:34px; height:34px; flex-shrink:0; border:1px solid var(--border-strong); border-radius:var(--radius); background:var(--card); color:var(--text-2); font-size:18px; line-height:1; cursor:pointer;}
   .verteiler-row .vt-del:hover{background:var(--bg-danger); color:var(--danger); border-color:var(--danger);}
   .vt-add{height:38px; padding:0 16px; font-size:13px; font-family:var(--font); color:var(--accent); background:var(--accent-bg); border:1px solid var(--accent); border-radius:var(--radius); cursor:pointer; font-weight:500;}
-  .vt-add:hover{background:#d3efe6;}
+  .vt-add:hover{background:#d5dfec;}
   .pg-box{border:1.5px solid var(--border-strong); border-radius:10px; padding:14px 16px; margin-top:14px;}
   .pg-box.pg1{border-left:4px solid #c98a2b; background:#fdf8f0;}
-  .pg-box.pg2{border-left:4px solid var(--accent); background:#f4faf8;}
+  .pg-box.pg2{border-left:4px solid var(--accent); background:#f5f8fc;}
   .pg-head{display:flex; align-items:center; gap:8px; font-size:13px; font-weight:700; margin-bottom:12px;}
   .pg-head .pg-num{width:22px; height:22px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:12px; color:#fff; flex-shrink:0;}
   .pg-box.pg1 .pg-num{background:#c98a2b;}
@@ -132,6 +132,26 @@
   .pg-box.pg1 .pg-head{color:#8a5e1a;}
   .pg-box.pg2 .pg-head{color:var(--accent);}
   .pg-head .pg-sub{font-weight:400; color:var(--text-3); font-size:12px;}
+  .komp-item{display:flex; align-items:flex-start; gap:11px; padding:11px 0; border-bottom:1px solid var(--border);}
+  .komp-item:last-child{border-bottom:none;}
+  .komp-icon{width:22px; height:22px; border-radius:50%; flex-shrink:0; display:inline-flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:#fff; margin-top:1px;}
+  .komp-icon.pflicht{background:var(--accent);}
+  .komp-icon.bedingt{background:#c98a2b;}
+  .komp-icon.option{background:var(--text-3);}
+  .komp-txt{flex:1;}
+  .komp-name{font-size:14px; font-weight:600;}
+  .komp-desc{font-size:12px; color:var(--text-2); margin-top:2px; line-height:1.5;}
+  .komp-legende{font-size:11px; color:var(--text-3); margin-top:12px; display:flex; gap:16px; flex-wrap:wrap;}
+  .komp-legende span{display:inline-flex; align-items:center; gap:5px;}
+  .komp-legende i{width:10px; height:10px; border-radius:50%; display:inline-block;}
+  .bes-wrap{border-top:1px solid var(--border); margin-top:16px; padding-top:14px;}
+  .bes-wrap textarea{
+    width:100%; min-height:58px; padding:9px 11px; font-size:13px; font-family:var(--font);
+    color:var(--text); background:var(--card); border:1px solid var(--border-strong);
+    border-radius:var(--radius); outline:none; resize:vertical; line-height:1.5;
+  }
+  .bes-wrap textarea:focus{border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-bg);}
+  .bes-wrap textarea::placeholder{color:var(--text-3);}
   #print-summary{display:none;}
   @media print{
     body{background:#fff;}
@@ -157,7 +177,7 @@
   #print-summary .ps-table td{padding:3px 0; vertical-align:top;}
   #print-summary .ps-table td:first-child{color:var(--text-2); width:52%; padding-right:8px;}
   #print-summary .ps-table td:last-child{color:var(--text); font-weight:500; text-align:right;}
-  #print-summary .ps-result{margin-top:14px; padding:14px 16px; border:2px solid var(--accent); border-radius:10px; background:#f6fbf9;}
+  #print-summary .ps-result{margin-top:14px; padding:14px 16px; border:2px solid var(--accent); border-radius:10px; background:#f6f9fd;}
   #print-summary .ps-result .ps-r-name{font-size:18px; font-weight:700; color:var(--text);}
   #print-summary .ps-result .ps-r-sub{font-size:12px; color:var(--text-2); margin-bottom:8px;}
   #print-summary .ps-result table{width:100%; border-collapse:collapse; font-size:12.5px;}
@@ -166,6 +186,14 @@
   #print-summary .ps-result td:last-child{text-align:right; font-weight:600;}
   #print-summary .ps-note{font-size:11.5px; color:var(--text-2); margin-top:10px; line-height:1.5;}
   #print-summary .ps-disclaimer{font-size:10.5px; color:var(--text-3); margin-top:16px; padding-top:8px; border-top:1px solid var(--border); line-height:1.5;}
+  #print-summary .psk-item{font-size:11.5px; line-height:1.5; padding:3px 0; display:flex; gap:7px;}
+  #print-summary .psk-mark{font-weight:700; flex-shrink:0; width:12px;}
+  #print-summary .psk-name{font-weight:600;}
+  #print-summary .psk-desc{color:var(--text-2);}
+  #print-summary .psk-legende{font-size:10.5px; color:var(--text-3); margin-top:6px;}
+  #print-summary .psb-item{font-size:11.5px; line-height:1.5; margin-bottom:7px;}
+  #print-summary .psb-label{font-weight:600; color:var(--text);}
+  #print-summary .psb-text{color:var(--text-2); white-space:pre-wrap;}
 </style>
 </head>
 <body>
@@ -197,12 +225,13 @@
       <button class="mini-btn" id="kunde-dupl" title="Aktuellen Fall als Kopie speichern (z. B. für Dämmvariante)">Duplizieren</button>
       <button class="mini-btn" id="kunde-del" title="Ausgewählten Fall löschen">Löschen</button>
     </div>
+    <label class="fld">Kunde / Bauvorhaben <span style="color:var(--text-3); font-weight:400;">— erscheint im PDF-Dateinamen</span></label>
     <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
-      <input type="text" id="kunde-name" placeholder="Name / Bezeichnung, z. B. Müller – Ist-Zustand" style="flex:1; min-width:200px; height:38px; padding:0 11px; font-size:14px; font-family:var(--font); color:var(--text); background:var(--card); border:1px solid var(--border-strong); border-radius:var(--radius); outline:none;">
+      <input type="text" id="kunde-name" placeholder="z. B. Müller, Musterstraße 12 – Oranienburg" style="flex:1; min-width:200px; height:38px; padding:0 11px; font-size:14px; font-family:var(--font); color:var(--text); background:var(--card); border:1px solid var(--border-strong); border-radius:var(--radius); outline:none;">
       <button class="mini-btn accent" id="kunde-save">Speichern</button>
       <span id="save-status" style="font-size:12px; color:var(--text-3);"></span>
     </div>
-    <div class="uwert-hint" style="margin-top:10px;">Für Dämmsimulationen: Ist-Zustand speichern, dann „Duplizieren", die Dämmwerte im duplizierten Fall anpassen und unter neuem Namen sichern. So lassen sich beide Varianten direkt vergleichen.</div>
+    <div class="uwert-hint" style="margin-top:10px;">Der Name ist für den Ausdruck alleine nicht zwingend zu speichern — er wandert beim „Als PDF speichern" automatisch in den Dateinamen (z. B. „Lutz Spring Auslegungstool - Müller - Weishaupt Evoblock WEB 9-14"). Speichern und Duplizieren sind nur für Dämmvarianten nötig.</div>
   </div>
 
   <!-- BLOCK 1: Bestandsanlage / Heizart -->
@@ -284,6 +313,65 @@
           <div class="uwert-hint">Aus Zählerablesung ermittelt oder geschätzt (Luft/Wasser typ. 3,0–4,0).</div>
         </div>
       </div>
+    </div>
+
+    <!-- Bisherige Vorlauftemperatur -->
+    <div style="border-top:1px solid var(--border); margin-top:16px; padding-top:16px;">
+      <label class="fld">Bisherige Vorlauftemperatur bekannt?</label>
+      <div class="segment" id="alt-vl-bekannt" style="margin-bottom:4px;">
+        <button type="button" data-altvl="nein" class="active">Nicht bekannt</button>
+        <button type="button" data-altvl="ja">Ja, bekannt</button>
+      </div>
+
+      <div class="mode-panel" id="alt-vl-panel">
+        <div class="grid-in" style="margin-top:14px;">
+          <div>
+            <label class="fld">Vorlauf der Altanlage am kältesten Tag</label>
+            <div class="row">
+              <input type="number" id="alt-vl-wert" value="60" min="30" max="90" step="1" style="flex:1;">
+              <span class="unit">°C</span>
+            </div>
+          </div>
+          <div>
+            <label class="fld">Wurde es damit ausreichend warm?</label>
+            <select id="alt-vl-komfort">
+              <option value="ja" selected>Ja, Räume wurden warm</option>
+              <option value="knapp">Knapp / einzelne Räume kühl</option>
+              <option value="nein">Nein, es war zu kalt</option>
+            </select>
+          </div>
+        </div>
+        <div id="alt-vl-bewertung" style="margin-top:12px;"></div>
+      </div>
+
+      <div class="uwert-hint" id="alt-vl-hint" style="margin-top:8px;">Die am Kessel eingestellte Heizkurve bzw. der Vorlauf an sehr kalten Tagen. Ist der Kunde bereits mit niedrigem Vorlauf ausgekommen, taugen die vorhandenen Heizflächen meist auch für die Wärmepumpe.</div>
+    </div>
+
+    <!-- Bauliche Gegebenheiten -->
+    <div style="border-top:1px solid var(--border); margin-top:16px; padding-top:16px;">
+      <div class="grid-in">
+        <div>
+          <label class="fld">Abwasseranschluss am Aufstellort vorhanden?</label>
+          <div class="segment" id="abwasser">
+            <button type="button" data-abw="ja" class="active">Ja</button>
+            <button type="button" data-abw="nein">Nein</button>
+          </div>
+          <div class="uwert-hint">Für den Ablauf der Sicherheitsgruppe am Trinkwasserspeicher (freier Auslauf nach DIN EN 1717). Ohne Anschluss mit Gefälle wird eine Hebeanlage nötig. Das Kondensat des Außengeräts geht separat in den Sickerkasten.</div>
+        </div>
+        <div>
+          <label class="fld">Zirkulationsleitung vorhanden?</label>
+          <div class="segment" id="zirkulation">
+            <button type="button" data-zirk="nein" class="active">Nein</button>
+            <button type="button" data-zirk="ja">Ja</button>
+          </div>
+          <div class="uwert-hint">Warmwasser-Zirkulation für sofort warmes Wasser an der Zapfstelle. Nur relevant, wenn die Wärmepumpe das Warmwasser bereitet.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bes-wrap">
+      <label class="fld">Besonderheiten / offene Punkte zur Bestandsanlage</label>
+      <textarea id="bes-bestand" placeholder="z. B. Kessel im Keller ohne Außenwand, Öltank muss vor Rückbau entleert werden, Schornstein wird noch für Kaminofen genutzt, Zählerschrank veraltet …"></textarea>
     </div>
   </div>
 
@@ -367,6 +455,11 @@
       </div>
 
       <div class="uwert-hint" style="margin-top:12px;">Die Wärmepumpe wird auf den höheren Vorlauf (Pumpengruppe 1, Heizkörper) ausgelegt — dieser Wert wird oben als Ziel-Vorlauftemperatur übernommen. Für maximale Effizienz die Heizkörper möglichst groß für niedrige Vorlauftemperaturen auslegen. Bei mehreren Etagen je Etage einen FBH-Verteiler ergänzen.</div>
+    </div>
+
+    <div class="bes-wrap">
+      <label class="fld">Besonderheiten / offene Punkte zu den Heizflächen</label>
+      <textarea id="bes-heizflaechen" placeholder="z. B. Bad-Heizkörper zu klein, Wintergarten schlecht beheizbar, FBH-Verteiler nicht zugänglich, einzelne Heizkörper mit Einrohrsystem, Thermostatventile defekt …"></textarea>
     </div>
   </div>
 
@@ -504,6 +597,11 @@
       </div>
       <div class="uwert-hint" id="uwert-ergebnis" style="margin-top:12px;"></div>
     </div>
+
+    <div class="bes-wrap">
+      <label class="fld">Besonderheiten / offene Punkte zum Gebäude</label>
+      <textarea id="bes-gebaeude" placeholder="z. B. Dachdämmung für nächstes Jahr geplant, Anbau ungedämmt, Keller teilbeheizt, Denkmalschutz an der Fassade, Fenster werden noch getauscht …"></textarea>
+    </div>
   </div>
 
   <!-- BLOCK 4: Auslegungsrandbedingungen -->
@@ -517,19 +615,68 @@
     </div>
     <div class="uwert-hint" id="ww-extern-hint" style="margin-top:-12px; margin-bottom:16px; display:none;">Warmwasserbereitung erfolgt extern (z. B. Durchlauferhitzer, Frischwasserstation am Gaskessel, separater WW-Wärmeerzeuger). Die Wärmepumpe wird ausschließlich auf die Raumheizung ausgelegt — kein Warmwasser-Zuschlag in der Heizlast.</div>
 
+    <label class="fld">Speicherkonzept — Platzverhältnisse im Technikraum</label>
+    <div class="segment" id="speicher-konzept" style="margin-bottom:6px;">
+      <button type="button" data-sp="getrennt" class="active">Platz für WAS + WES</button>
+      <button type="button" data-sp="wms">Nur Platz für WMS</button>
+    </div>
+
+    <div id="speicher-detail" style="margin-bottom:18px;">
+      <div class="grid-in" id="sp-getrennt-felder" style="margin-top:12px;">
+        <div id="sp-was-wrap">
+          <label class="fld">WAS · Trinkwasserspeicher</label>
+          <select id="sp-was">
+            <option value="200">200 Liter</option>
+            <option value="300" selected>300 Liter</option>
+          </select>
+        </div>
+        <div>
+          <label class="fld">WES · Energiespeicher (Puffer)</label>
+          <select id="sp-wes">
+            <option value="200" selected>200 Liter</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid-in" id="sp-wms-felder" style="margin-top:12px; display:none;">
+        <div>
+          <label class="fld">WMS · Modularspeicher</label>
+          <select id="sp-wms">
+            <option value="300_120" selected>300 l Trinkwasser / 120 l Puffer</option>
+            <option value="200_80">200 l Trinkwasser / 80 l Puffer</option>
+          </select>
+        </div>
+      </div>
+      <div class="uwert-hint" id="sp-hint" style="margin-top:8px;"></div>
+    </div>
+
     <div class="grid-in">
       <div>
-        <label class="fld">Norm-Außentemperatur (Auslegungspunkt)</label>
+        <label class="fld">Norm-Außentemperatur (Heizlast, DIN EN 12831)</label>
+        <select id="norm-at">
+          <option value="-10">−10 °C</option>
+          <option value="-11">−11 °C</option>
+          <option value="-12">−12 °C</option>
+          <option value="-13">−13 °C</option>
+          <option value="-14" selected>−14 °C (Brandenburg, typ. −13,5)</option>
+          <option value="-15">−15 °C</option>
+          <option value="-16">−16 °C</option>
+          <option value="-18">−18 °C</option>
+        </select>
+        <div class="uwert-hint">Standortbezogener Auslegungswert für die Heizlastermittlung.</div>
+      </div>
+      <div>
+        <label class="fld">Bivalenzpunkt (Auslegung Wärmepumpe)</label>
         <select id="ap">
-          <option value="-14">−14 °C</option>
           <option value="-12">−12 °C</option>
           <option value="-10">−10 °C</option>
           <option value="-9">−9 °C</option>
           <option value="-8">−8 °C</option>
-          <option value="-7" selected>−7 °C (Brandenburg / Berlin)</option>
+          <option value="-7" selected>−7 °C (Betriebsstandard)</option>
           <option value="-6">−6 °C</option>
-          <option value="-5">−5 °C</option>
+          <option value="-5">−5 °C (Weishaupt-Werksauslegung)</option>
+          <option value="-3">−3 °C</option>
         </select>
+        <div class="uwert-hint">Bis hierher arbeitet die WP ohne nennenswerte Heizstabunterstützung.</div>
       </div>
       <div>
         <label class="fld">Ziel-Vorlauftemperatur <span id="vl-auto-hint" style="color:var(--text-3); font-weight:400;"></span></label>
@@ -544,9 +691,15 @@
         </select>
       </div>
     </div>
+    <div id="bivalenz-info" style="margin-top:14px;"></div>
     <div class="toggle-row">
       <input type="checkbox" id="streng">
       <label for="streng">Strenge Auslegung erzwingen — Wärmepumpe deckt den Auslegungspunkt zu 100 % ohne Zusatzheizung. Standard (deaktiviert): monoenergetisch, kleiner Heizstab-Anteil an den kältesten Tagen erlaubt.</label>
+    </div>
+
+    <div class="bes-wrap">
+      <label class="fld">Besonderheiten / offene Punkte zur Auslegung &amp; Aufstellung</label>
+      <textarea id="bes-auslegung" placeholder="z. B. Aufstellort Grenzabstand zum Nachbarn prüfen, Schallgutachten nötig, PV-Anlage geplant (SG-Ready), Netzbetreiber-Anmeldung offen, Zugang für Krananlieferung eng …"></textarea>
     </div>
   </div>
 
@@ -579,6 +732,12 @@
     <div id="empfehlung"></div>
   </div>
 
+  <!-- Zusätzlich benötigte Komponenten -->
+  <div class="block">
+    <div class="section-label">Objektabhängige Zusatzpositionen <span style="color:var(--text-3); font-weight:400;">— nicht im Standardumfang enthalten</span></div>
+    <div id="komponenten"></div>
+  </div>
+
   <!-- Druck-Zusammenfassung: nur beim Drucken sichtbar -->
   <div id="print-summary">
     <div class="ps-title">Zusammenfassung Wärmepumpen-Ersteinschätzung</div>
@@ -597,11 +756,14 @@
     <table class="ps-table" id="ps-heizlast"></table>
     <div class="ps-result" id="ps-result"></div>
     <div class="ps-note" id="ps-note"></div>
+    <div id="ps-komponenten"></div>
+    <div id="ps-besonderheiten"></div>
     <div class="ps-disclaimer">Überschlägige Ersteinschätzung für die Angebotserstellung. Keine verbindliche Auslegung — diese erfolgt nach raumweiser Heizlastberechnung gemäß DIN EN 12831 und Abgleich mit dem Weishaupt-Planungshandbuch (Fachinformation 83603801).</div>
   </div>
 
   <div style="margin-top:22px; display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
     <button class="print-btn" style="margin-top:0;" onclick="if(window.aktualisiereDruck)window.aktualisiereDruck();window.print()">Als PDF drucken / speichern</button>
+    <button class="print-btn" style="margin-top:0;" id="reset-btn" title="Alle Eingaben auf Standard zurücksetzen">Zurücksetzen für nächstes Bauvorhaben</button>
   </div>
 
   <footer>
@@ -660,6 +822,10 @@
   var heizart = "oel";
   var gebMode = "schnell";
   var gasEinheit = "m3";
+  var altVlBekannt = "nein";      // nein | ja
+  var abwasser = "ja";            // ja | nein
+  var zirkulation = "nein";       // ja | nein
+  var speicherKonzept = "getrennt"; // getrennt (WAS+WES) | wms
   var wpAufgabe = "heizung_ww";   // heizung_ww | nur_heizung
   var heizflaeche = null;   // null = noch keine Auswahl
   var vlManuell = false;    // true, sobald der Nutzer die VL selbst ändert
@@ -738,6 +904,197 @@
     });
   });
 
+  // Bisherige Vorlauftemperatur bekannt?
+  function altVlAnwenden(){
+    el("alt-vl-panel").classList.toggle("show", altVlBekannt === "ja");
+    el("alt-vl-hint").style.display = altVlBekannt === "ja" ? "none" : "block";
+    document.querySelectorAll("#alt-vl-bekannt button").forEach(function(x){ x.classList.toggle("active", x.getAttribute("data-altvl")===altVlBekannt); });
+  }
+  document.querySelectorAll("#alt-vl-bekannt button").forEach(function(b){
+    b.addEventListener("click", function(){
+      altVlBekannt = b.getAttribute("data-altvl");
+      altVlAnwenden();
+      calc();
+      arbeitsstandSichern();
+    });
+  });
+
+  // Fachliche Bewertung: bisherige VL im Vergleich zur geplanten Ziel-VL
+  function altVlBewerten(zielVl){
+    if(altVlBekannt !== "ja"){ el("alt-vl-bewertung").innerHTML = ""; return null; }
+    var altVl = parseFloat(el("alt-vl-wert").value)||0;
+    var komfort = el("alt-vl-komfort").value;
+    if(!altVl){ el("alt-vl-bewertung").innerHTML = ""; return null; }
+
+    var cls, txt, kurz;
+    if(komfort === "nein"){
+      cls = "b-danger";
+      kurz = "Heizflächen bereits im Bestand zu klein";
+      txt = "Die Altanlage lief mit "+altVl+" °C und es wurde trotzdem nicht warm — die Heizflächen sind schon für den Bestand unterdimensioniert. Vor einem Wärmepumpen-Angebot Heizflächen prüfen und einzelne Räume nachrüsten. Raumweise Heizlastberechnung hier zwingend.";
+    } else if(altVl <= zielVl){
+      cls = "b-success";
+      kurz = "Sehr gute Voraussetzung";
+      txt = "Die Altanlage kam bereits mit "+altVl+" °C aus" + (komfort === "knapp" ? " (mit Einschränkungen in einzelnen Räumen)" : "") + " — das liegt auf oder unter der geplanten Ziel-Vorlauftemperatur von "+zielVl+" °C. Die vorhandenen Heizflächen sind damit für den Wärmepumpenbetrieb gut geeignet." + (komfort === "knapp" ? " Die kritischen Räume gezielt nachrechnen." : "");
+    } else if(altVl - zielVl <= 10){
+      cls = komfort === "knapp" ? "b-warn" : "b-success";
+      kurz = "Gute Voraussetzung";
+      txt = "Die Altanlage lief mit "+altVl+" °C, geplant sind "+zielVl+" °C — eine Absenkung um "+Math.round(altVl-zielVl)+" K. Das ist meist erreichbar, weil Bestandsanlagen typischerweise mit Reserve gefahren werden." + (komfort === "knapp" ? " Da es bereits knapp war, sollten die kritischen Räume vor dem Angebot nachgerechnet werden." : " Als Nachweis empfiehlt sich ein Absenkversuch: Heizkurve für einige kalte Tage auf "+zielVl+" °C stellen und prüfen, ob alle Räume warm werden.");
+    } else if(altVl - zielVl <= 20){
+      cls = "b-warn";
+      kurz = "Absenkung prüfen";
+      txt = "Von "+altVl+" °C auf "+zielVl+" °C sind "+Math.round(altVl-zielVl)+" K Absenkung — das ist deutlich. Vor dem Angebot unbedingt einen Absenkversuch durchführen oder die Heizflächen raumweise nachrechnen. Ggf. einzelne Heizkörper vergrößern.";
+    } else {
+      cls = "b-danger";
+      kurz = "Heizflächenanpassung wahrscheinlich nötig";
+      txt = "Von "+altVl+" °C auf "+zielVl+" °C wären "+Math.round(altVl-zielVl)+" K Absenkung — das schaffen die vorhandenen Heizflächen erfahrungsgemäß nicht. Entweder Heizflächen vergrößern oder mit höherer Vorlauftemperatur auslegen (R290 erlaubt bis 75 °C, kostet aber Effizienz).";
+    }
+    el("alt-vl-bewertung").innerHTML = '<div class="badge '+cls+'" style="margin-bottom:0;">'+txt+'</div>';
+    return { altVl: altVl, komfort: komfort, kurz: kurz };
+  }
+
+  // Bauliche Gegebenheiten: Abwasser / Zirkulation
+  document.querySelectorAll("#abwasser button").forEach(function(b){
+    b.addEventListener("click", function(){
+      abwasser = b.getAttribute("data-abw");
+      document.querySelectorAll("#abwasser button").forEach(function(x){ x.classList.toggle("active", x.getAttribute("data-abw")===abwasser); });
+      calc(); arbeitsstandSichern();
+    });
+  });
+  document.querySelectorAll("#zirkulation button").forEach(function(b){
+    b.addEventListener("click", function(){
+      zirkulation = b.getAttribute("data-zirk");
+      document.querySelectorAll("#zirkulation button").forEach(function(x){ x.classList.toggle("active", x.getAttribute("data-zirk")===zirkulation); });
+      calc(); arbeitsstandSichern();
+    });
+  });
+
+  // ---- Zusätzlich benötigte Komponenten ----
+  function komponentenErmitteln(gewaehlt, hlFinal){
+    // Nur objektabhängige Zusatzpositionen, die NICHT im Standardangebot enthalten sind.
+    var k = [];
+
+    // --- Speicher (Ausführung objektabhängig nach Platzverhältnissen) ---
+    if(wpAufgabe === "nur_heizung"){
+      k.push({art:"pflicht", name:"WES " + el("sp-wes").value + " l · Energiespeicher",
+        desc:"Reiner Pufferspeicher — Warmwasserbereitung erfolgt extern, kein Trinkwasserspeicher erforderlich."});
+    } else if(speicherKonzept === "getrennt"){
+      k.push({art:"pflicht", name:"WAS " + el("sp-was").value + " l · Trinkwasserspeicher",
+        desc:"Getrennte Aufstellung — Stellfläche für zwei Speicher erforderlich."});
+      k.push({art:"pflicht", name:"WES " + el("sp-wes").value + " l · Energiespeicher",
+        desc:"Pufferspeicher für Anlagenvolumen und Abtaubetrieb."});
+    } else {
+      var wmsWahl = el("sp-wms").value === "200_80"
+        ? {name:"WMS 200/80 · Modularspeicher", desc:"200 l Trinkwasser / 80 l Puffer in einer Einheit — platzsparend bei beengtem Technikraum. Nur 80 l Puffervolumen: bei geringem Estrich-/Rohrnetzvolumen oder überwiegend Heizkörpern zusätzliches Anlagenvolumen prüfen."}
+        : {name:"WMS 300/120 · Modularspeicher", desc:"300 l Trinkwasser / 120 l Puffer in einer Einheit — platzsparend bei beengtem Technikraum."};
+      k.push({art:"pflicht", name:wmsWahl.name, desc:wmsWahl.desc});
+    }
+
+    // --- Trinkwasserseite: nur wenn die WP das Warmwasser bereitet ---
+    if(wpAufgabe !== "nur_heizung"){
+      if(abwasser === "nein"){
+        k.push({art:"pflicht", name:"Hebeanlage für Ablauf Sicherheitsgruppe",
+          desc:"Kein Abwasseranschluss mit Gefälle am Aufstellort — Ablauf der Sicherheitsgruppe muss gehoben werden, freier Auslauf nach DIN EN 1717 bleibt erhalten."});
+      }
+      if(zirkulation === "ja"){
+        k.push({art:"pflicht", name:"Zirkulationspumpe mit Zeit-/Temperatursteuerung",
+          desc:"Zirkulationsleitung vorhanden. Bedarfsgeführte Steuerung — Dauerzirkulation senkt die Jahresarbeitszahl deutlich."});
+      }
+    }
+
+    // --- Anlagenvolumen bei Taktungsrisiko ---
+    if(hlFinal < gewaehlt.min * 1.3){
+      k.push({art:"pflicht", name:"Zusätzliches Anlagenvolumen (Reihenpuffer)",
+        desc:"Heizlast "+r1(hlFinal)+" kW liegt nahe der unteren Modulationsgrenze der "+gewaehlt.name+" ("+r1(gewaehlt.min)+" kW) — Taktungsgefahr im Teillastbetrieb."});
+    }
+
+    // --- Zweiter Heizkreis / zusätzliche Verteiler ---
+    if(heizflaeche === "beides"){
+      k.push({art:"pflicht", name:"Erweiterungsmodul 2. Heizkreis + gemischte Pumpengruppe",
+        desc:"Gemischter Kreis (3-Wege-Mischer) für die Fußbodenheizung zusätzlich zum ungemischten Heizkörperkreis."});
+    }
+    var vertListe = heizflaeche === "beides" ? beidesVerteiler : (heizflaeche === "fbh" ? fbhVerteiler : null);
+    if(vertListe && vertListe.length > 1){
+      k.push({art:"pflicht", name:"Zusätzliche Heizkreisverteiler ("+(vertListe.length-1)+" über Standard)",
+        desc:"Insgesamt "+vertListe.length+" Verteiler mit "+verteilerKreiseGesamt(vertListe)+" Kreisen — Anbindeleitungen je Etage einkalkulieren."});
+    }
+
+    // --- Heizflächen aus VL-Bewertung ---
+    if(altVlBekannt === "ja"){
+      var aVl = parseFloat(el("alt-vl-wert").value)||0;
+      var aK = el("alt-vl-komfort").value;
+      var zielVl = parseFloat(el("vl").value)||45;
+      if(aK === "nein"){
+        k.push({art:"bedingt", name:"Heizflächenerweiterung erforderlich",
+          desc:"Altanlage wurde mit "+aVl+" °C nicht warm — Heizflächen bereits im Bestand unterdimensioniert. Raumweise Nachrechnung und Austausch einzelner Heizkörper einplanen."});
+      } else if(aVl - zielVl > 20){
+        k.push({art:"bedingt", name:"Heizflächenanpassung wahrscheinlich",
+          desc:"Absenkung von "+aVl+" °C auf "+zielVl+" °C ("+Math.round(aVl-zielVl)+" K) — einzelne Heizkörper vergrößern oder mit höherer Vorlauftemperatur auslegen."});
+      } else if(aVl - zielVl > 10){
+        k.push({art:"bedingt", name:"Absenkversuch vor Angebotslegung",
+          desc:"Absenkung um "+Math.round(aVl-zielVl)+" K geplant — Heizkurve testweise auf "+zielVl+" °C stellen und kritische Räume prüfen."});
+      }
+    }
+
+    // --- Objektabhängige Prüfpunkte ---
+    k.push({art:"option", name:"Schallgutachten / Schallschutzmaßnahmen",
+      desc:"Bei enger Bebauung: "+ (gewaehlt.name==="WEB 7/10" ? "43" : gewaehlt.name==="WEB 13/20" ? "45" : "46") +" dB(A) Schallleistung, Abstand zu schutzbedürftigen Räumen mit dem Weishaupt-Schallrechner prüfen."});
+    if(heizflaeche === "fbh" || heizflaeche === "beides"){
+      k.push({art:"option", name:"Kühlfunktion über Fußbodenheizung",
+        desc:"Evoblock ist reversibel — Taupunktwächter und geeignete Regelung erforderlich."});
+    }
+
+    return k;
+  }
+
+  function komponentenRendern(k){
+    if(!k.length){
+      el("komponenten").innerHTML = '<div class="komp-desc" style="padding:4px 0;">Keine objektabhängigen Zusatzpositionen erkannt — Standardumfang ausreichend.</div>';
+      return;
+    }
+    var html = "";
+    k.forEach(function(item){
+      var zeichen = item.art === "pflicht" ? "✓" : item.art === "bedingt" ? "!" : "+";
+      html += '<div class="komp-item">';
+      html += '<span class="komp-icon '+item.art+'">'+zeichen+'</span>';
+      html += '<div class="komp-txt"><div class="komp-name">'+item.name+'</div><div class="komp-desc">'+item.desc+'</div></div>';
+      html += '</div>';
+    });
+    html += '<div class="komp-legende">';
+    html += '<span><i style="background:var(--accent)"></i> erforderlich</span>';
+    html += '<span><i style="background:#c98a2b"></i> objektabhängig</span>';
+    html += '<span><i style="background:var(--text-3)"></i> optional</span>';
+    html += '</div>';
+    el("komponenten").innerHTML = html;
+  }
+
+  // Speicherkonzept: getrennt (WAS+WES) oder kombiniert (WMS)
+  function speicherAnwenden(){
+    var nurHeizung = (wpAufgabe === "nur_heizung");
+    document.querySelectorAll("#speicher-konzept button").forEach(function(x){ x.classList.toggle("active", x.getAttribute("data-sp")===speicherKonzept); });
+    el("sp-getrennt-felder").style.display = speicherKonzept === "getrennt" ? "" : "none";
+    el("sp-wms-felder").style.display = speicherKonzept === "wms" ? "" : "none";
+    // Bei nur Heizung entfällt der Trinkwasserspeicher
+    el("sp-was-wrap").style.display = nurHeizung ? "none" : "";
+    var hint = "";
+    if(nurHeizung){
+      hint = speicherKonzept === "getrennt"
+        ? "Nur Heizung: Trinkwasserspeicher entfällt, es wird ausschließlich der WES als Pufferspeicher benötigt."
+        : "Nur Heizung: Ein WMS ist hier nicht sinnvoll — der integrierte Trinkwasserteil bleibt ungenutzt. Reiner Pufferspeicher (WES) empfohlen.";
+    } else {
+      hint = speicherKonzept === "getrennt"
+        ? "Getrennte Aufstellung: mehr Puffervolumen und größere Trinkwasserreserve, benötigt aber Stellfläche für zwei Speicher."
+        : "Kombispeicher WMS: platzsparend, Trinkwasser und Puffer in einer Einheit. Geringeres Puffervolumen — bei Taktungsgefahr zusätzliches Anlagenvolumen prüfen.";
+    }
+    el("sp-hint").textContent = hint;
+  }
+  document.querySelectorAll("#speicher-konzept button").forEach(function(b){
+    b.addEventListener("click", function(){
+      speicherKonzept = b.getAttribute("data-sp");
+      speicherAnwenden();
+      calc(); arbeitsstandSichern();
+    });
+  });
+
   // WP-Aufgabe: Heizung+WW oder nur Heizung
   function wpAufgabeAnwenden(){
     var nurHeizung = (wpAufgabe === "nur_heizung");
@@ -750,6 +1107,7 @@
       if(lbl) lbl.textContent = nurHeizung ? "Personen (Warmwasser extern)" : "Personen (Warmwasser)";
     }
     document.querySelectorAll("#wp-aufgabe button").forEach(function(x){ x.classList.toggle("active", x.getAttribute("data-aufgabe")===wpAufgabe); });
+    speicherAnwenden();
   }
   document.querySelectorAll("#wp-aufgabe button").forEach(function(b){
     b.addEventListener("click", function(){
@@ -874,8 +1232,8 @@
       el("detail-ergebnis").textContent = "Ergebnis Bauteilansatz: ≈ "+r0(spez)+" W/m² (Basis "+r0(basis)+" + Fenster "+r0(fen)+" + Wand "+r0(wand)+" + Dach "+r0(dach)+")";
       return {hl: flaeche*spez/1000, spez:spez, txt:"Bauteile ≈ "+r0(spez)+" W/m²"};
     } else {
-      var apTemp = parseFloat(el("ap").value);
-      var dT = 20 - apTemp;
+      var normAT = parseFloat(el("norm-at").value);
+      var dT = 20 - normAT;
       var HT = 0;
       HT += (parseFloat(el("u-wand-a").value)||0)*(parseFloat(el("u-wand-u").value)||0);
       HT += (parseFloat(el("u-dach-a").value)||0)*(parseFloat(el("u-dach-u").value)||0);
@@ -893,7 +1251,9 @@
     var flaeche = parseFloat(el("flaeche").value);
     var personen = parseFloat(el("personen").value);
     var apTemp = parseFloat(el("ap").value);
+    var normAT = parseFloat(el("norm-at").value);
     var vl = parseFloat(el("vl").value);
+    var altVlInfo = altVlBewerten(vl);
 
     el("flaeche-out").textContent = flaeche + " m²";
     el("personen-out").textContent = personen;
@@ -934,52 +1294,85 @@
     el("hl-final").textContent = r1(hlFinal)+" kW";
 
     // Baugrößenauswahl
+    // Die Heizlast hlFinal gilt bei Norm-Außentemperatur. Am (wärmeren) Bivalenzpunkt
+    // ist die Gebäudelast geringer — lineare Lastlinie zwischen Heizgrenze (15 °C) und Norm-AT.
+    var heizgrenze = 15;
+    var lastAnteilBiv = (heizgrenze - apTemp) / (heizgrenze - normAT);
+    if(lastAnteilBiv > 1) lastAnteilBiv = 1;
+    if(lastAnteilBiv < 0) lastAnteilBiv = 0;
+    var lastAmBivalenzpunkt = hlFinal * lastAnteilBiv;
+
     var monoTol = el("streng").checked ? 1.0 : 1.15;
     var gewaehlt = null;
     for(var i=0;i<geraete.length;i++){
-      if(apLeistungKurve(geraete[i], apTemp, vl)*monoTol >= hlFinal){ gewaehlt = geraete[i]; break; }
+      if(apLeistungKurve(geraete[i], apTemp, vl)*monoTol >= lastAmBivalenzpunkt){ gewaehlt = geraete[i]; break; }
     }
     if(!gewaehlt){ gewaehlt = geraete[geraete.length-1]; }
 
     var apLeistung = apLeistungKurve(gewaehlt, apTemp, vl);
-    var deckung = Math.min(100, apLeistung/hlFinal*100);
-    var heizstabAnteil = Math.max(0, hlFinal - apLeistung);
-    var taktRisiko = hlFinal < gewaehlt.min*1.3;
+    var deckung = Math.min(100, apLeistung/lastAmBivalenzpunkt*100);
+    var heizstabAnteil = Math.max(0, lastAmBivalenzpunkt - apLeistung);
+    // Heizstabbedarf bei Norm-Außentemperatur (dort ist die Lücke am größten)
+    var leistungBeiNormAT = apLeistungKurve(gewaehlt, normAT, vl);
+    var heizstabBeiNormAT = Math.max(0, hlFinal - leistungBeiNormAT);
+    var taktRisiko = lastAmBivalenzpunkt < gewaehlt.min*1.3;
 
     var statusCls, statusTxt;
     if(heizstabAnteil <= 0.05){
-      statusCls="b-success"; statusTxt="✓ Monovalent — die Wärmepumpe deckt den Auslegungspunkt vollständig ohne Heizstab.";
+      statusCls="b-success"; statusTxt="✓ Die Wärmepumpe deckt den Bivalenzpunkt "+apTemp+" °C vollständig ohne Heizstab.";
     } else if(heizstabAnteil <= gewaehlt.max*0.15){
-      statusCls="b-warn"; statusTxt="◐ Monoenergetisch — geringe Heizstab-Unterstützung nur an den kältesten Tagen.";
+      statusCls="b-warn"; statusTxt="◐ Am Bivalenzpunkt "+apTemp+" °C bereits geringe Heizstab-Unterstützung nötig.";
     } else {
-      statusCls="b-danger"; statusTxt="⚠ Deutlicher Heizstab-Anteil am Auslegungspunkt — nächstgrößere Baugröße prüfen.";
+      statusCls="b-danger"; statusTxt="⚠ Deutlicher Heizstab-Anteil schon am Bivalenzpunkt — nächstgrößere Baugröße prüfen.";
     }
 
     var html = '<div class="rec-card">';
     html += '<div class="rec-head"><div class="rec-name">Weishaupt Evoblock '+gewaehlt.name+'</div>';
     html += '<div class="rec-meta">R290 · Modulation '+r1(gewaehlt.min)+'–'+r1(gewaehlt.max)+' kW · '+gewaehlt.phase+'</div></div>';
     html += '<div class="rec-stats">';
-    html += '<div class="rec-stat"><div class="rec-stat-lbl">Leistung bei A'+apTemp+'/W'+vl+' (Kurve)</div><div class="rec-stat-val">≈ '+r1(apLeistung)+' kW</div></div>';
+    html += '<div class="rec-stat"><div class="rec-stat-lbl">Gebäudelast bei '+apTemp+' °C</div><div class="rec-stat-val">'+r1(lastAmBivalenzpunkt)+' kW</div></div>';
+    html += '<div class="rec-stat"><div class="rec-stat-lbl">WP-Leistung A'+apTemp+'/W'+vl+'</div><div class="rec-stat-val">≈ '+r1(apLeistung)+' kW</div></div>';
+    html += '<div class="rec-stat"><div class="rec-stat-lbl">Deckung am Bivalenzpunkt</div><div class="rec-stat-val">'+r0(deckung)+' %</div></div>';
     html += '<div class="rec-stat"><div class="rec-stat-lbl">Nennwärmeleistung A−7/W35</div><div class="rec-stat-val">'+r1(gewaehlt.biv)+' kW</div></div>';
-    html += '<div class="rec-stat"><div class="rec-stat-lbl">Deckung am AP</div><div class="rec-stat-val">'+r0(deckung)+' %</div></div>';
-    html += '<div class="rec-stat"><div class="rec-stat-lbl">Heizstab-Anteil am AP</div><div class="rec-stat-val">'+(heizstabAnteil<=0.05?"0 kW":"≈ "+r1(heizstabAnteil)+" kW")+'</div></div>';
     html += '</div>';
     html += '<div class="badge '+statusCls+'">'+statusTxt+'</div>';
-    if(taktRisiko){
-      html += '<div class="badge b-warn">↻ Taktungsrisiko im Teillastbetrieb: Heizlast ('+r1(hlFinal)+' kW) nahe der unteren Modulationsgrenze ('+r1(gewaehlt.min)+' kW). Ausreichendes Anlagenvolumen bzw. Pufferspeicher vorsehen.</div>';
+
+    // Zweiter Betriebspunkt: Norm-Außentemperatur
+    html += '<div style="border-top:1px solid var(--border); margin-top:14px; padding-top:14px;">';
+    html += '<div style="font-size:13px; color:var(--text-2); margin-bottom:10px;">Bei Norm-Außentemperatur '+normAT+' °C (kälteste Auslegungstage)</div>';
+    html += '<div class="rec-stats" style="margin-bottom:10px;">';
+    html += '<div class="rec-stat"><div class="rec-stat-lbl">Gebäudeheizlast</div><div class="rec-stat-val">'+r1(hlFinal)+' kW</div></div>';
+    html += '<div class="rec-stat"><div class="rec-stat-lbl">WP-Leistung A'+normAT+'/W'+vl+'</div><div class="rec-stat-val">≈ '+r1(leistungBeiNormAT)+' kW</div></div>';
+    html += '<div class="rec-stat"><div class="rec-stat-lbl">Heizstab-Anteil</div><div class="rec-stat-val">'+(heizstabBeiNormAT<=0.05?"0 kW":"≈ "+r1(heizstabBeiNormAT)+" kW")+'</div></div>';
+    html += '</div>';
+    var hsStufen = Math.ceil(heizstabBeiNormAT / 3);
+    if(heizstabBeiNormAT > 0.05){
+      var stufenTxt = hsStufen <= 3
+        ? "Die integrierte dreistufige Zusatzheizung (3/6/9 kW) deckt das ab — rechnerisch Stufe "+hsStufen+"."
+        : "Benötigte Zusatzleistung übersteigt die integrierte Zusatzheizung — Auslegung prüfen.";
+      html += '<div class="badge '+(hsStufen<=3?"b-warn":"b-danger")+'" style="margin-bottom:0;">Zwischen '+apTemp+' °C und '+normAT+' °C unterstützt der Heizstab mit bis zu '+r1(heizstabBeiNormAT)+' kW. '+stufenTxt+' Jahresanteil an der Heizarbeit typisch unter 5 %, da diese Temperaturen nur an wenigen Tagen auftreten.</div>';
+    } else {
+      html += '<div class="badge b-success" style="margin-bottom:0;">Monovalent — die Wärmepumpe deckt auch die Norm-Außentemperatur '+normAT+' °C vollständig ohne Heizstab.</div>';
     }
-    var bivTxt = heizstabAnteil <= 0.05
-      ? "Bivalenzpunkt unterhalb "+apTemp+" °C — reiner Wärmepumpenbetrieb bis zum Auslegungspunkt. Bei 0 Sperrstunden (§14a EnWG, Neuanlage) unkritisch. Weishaupt-Werksauslegung: Bivalenztemperatur −5 °C, hier also Reserve."
-      : "Bivalenzpunkt oberhalb "+apTemp+" °C — die integrierte dreistufige Zusatzheizung springt an den kältesten Tagen zu (monoenergetisch). Jahresanteil der Heizstabarbeit typisch unter 5 %. Weishaupt-Werksauslegung: Bivalenztemperatur −5 °C. Vorlauf bis 75 °C über R290 möglich.";
-    html += '<div class="note">ℹ '+bivTxt+'</div></div>';
+    html += '</div>';
+
+    if(taktRisiko){
+      html += '<div class="badge b-warn" style="margin-top:11px;">↻ Taktungsrisiko im Teillastbetrieb: Last am Bivalenzpunkt ('+r1(lastAmBivalenzpunkt)+' kW) nahe der unteren Modulationsgrenze ('+r1(gewaehlt.min)+' kW). Ausreichendes Anlagenvolumen bzw. Pufferspeicher vorsehen.</div>';
+    }
+    var bivTxt = "Auslegung monoenergetisch mit Bivalenzpunkt "+apTemp+" °C bei einer Norm-Außentemperatur von "+normAT+" °C. Bei 0 Sperrstunden (§14a EnWG, Neuanlage) unkritisch. Weishaupt-Werksauslegung: Bivalenztemperatur −5 °C. Vorlauf bis 75 °C über R290 möglich.";
+    html += '<div class="note" style="margin-top:11px;">ℹ '+bivTxt+'</div></div>';
     el("empfehlung").innerHTML = html;
+
+    // Zusätzlich benötigte Komponenten
+    var komponenten = komponentenErmitteln(gewaehlt, hlFinal);
+    komponentenRendern(komponenten);
 
     // ---- Druck-Zusammenfassung befüllen ----
     befuelleDruck({
       flaeche:flaeche, personen:personen, apTemp:apTemp, vl:vl,
       hlVerbrauch:hlVerbrauch, hlGebaeude:hlGebaeude, geb:geb, hlFinal:hlFinal, wwZuschlag:wwZuschlag,
       gewaehlt:gewaehlt, apLeistung:apLeistung, deckung:deckung, heizstabAnteil:heizstabAnteil,
-      statusTxt:statusTxt, bivTxt:bivTxt, taktRisiko:taktRisiko
+      statusTxt:statusTxt, bivTxt:bivTxt, taktRisiko:taktRisiko, altVlInfo:altVlInfo, komponenten:komponenten, normAT:normAT, lastAmBivalenzpunkt:lastAmBivalenzpunkt, leistungBeiNormAT:leistungBeiNormAT, heizstabBeiNormAT:heizstabBeiNormAT
     });
   }
 
@@ -1036,7 +1429,8 @@
       b += zeile("Stromverbrauch WP", (el("wp-strom").value||"–")+" kWh/a");
       b += zeile("Jahresarbeitszahl (JAZ)", (el("wp-jaz").value||"–"));
     }
-    b += zeile("Norm-Außentemperatur", d.apTemp+" °C");
+    b += zeile("Norm-Außentemperatur", d.normAT+" °C");
+    b += zeile("Bivalenzpunkt (WP-Auslegung)", d.apTemp+" °C");
     var hfName = {hk:"Heizkörper", fbh:"Fußbodenheizung", beides:"Heizkörper + Fußbodenheizung"}[heizflaeche];
     if(hfName){
       b += zeile("Heizflächen", hfName);
@@ -1055,7 +1449,23 @@
       }
     }
     b += zeile("Ziel-Vorlauftemperatur", d.vl+" °C");
+    if(altVlBekannt === "ja"){
+      var aVl = el("alt-vl-wert").value||"–";
+      var aK = {ja:"Räume wurden warm", knapp:"knapp / einzelne Räume kühl", nein:"zu kalt"}[el("alt-vl-komfort").value];
+      b += zeile("Bisheriger Vorlauf (Altanlage)", aVl+" °C — "+aK);
+    }
     b += zeile("Aufgabe der Wärmepumpe", wpAufgabe === "nur_heizung" ? "Nur Heizung (WW extern)" : "Heizung + Warmwasser");
+    var spTxt;
+    if(wpAufgabe === "nur_heizung"){
+      spTxt = "WES " + el("sp-wes").value + " l (nur Puffer)";
+    } else if(speicherKonzept === "getrennt"){
+      spTxt = "WAS " + el("sp-was").value + " l + WES " + el("sp-wes").value + " l (getrennt)";
+    } else {
+      spTxt = el("sp-wms").value === "200_80" ? "WMS 200 l TW / 80 l Puffer" : "WMS 300 l TW / 120 l Puffer";
+    }
+    b += zeile("Speicherkonzept", spTxt);
+    b += zeile("Abwasseranschluss", abwasser === "ja" ? "vorhanden" : "nicht vorhanden");
+    b += zeile("Zirkulationsleitung", zirkulation === "ja" ? "vorhanden" : "nicht vorhanden");
     el("ps-bestand").innerHTML = b;
 
     // Heizlast
@@ -1071,29 +1481,77 @@
     var res = '<div class="ps-r-name">Weishaupt Evoblock '+d.gewaehlt.name+'</div>';
     res += '<div class="ps-r-sub">R290 · Modulation '+r1(d.gewaehlt.min)+'–'+r1(d.gewaehlt.max)+' kW · '+d.gewaehlt.phase+' · Vorlauf bis 75 °C</div>';
     res += '<table>';
-    res += zeile("Leistung bei A"+d.apTemp+"/W"+d.vl+" (Kurve)", "≈ "+r1(d.apLeistung)+" kW");
+    res += zeile("<strong>Am Bivalenzpunkt "+d.apTemp+" °C</strong>", "");
+    res += zeile("&nbsp;&nbsp;Gebäudelast", r1(d.lastAmBivalenzpunkt)+" kW");
+    res += zeile("&nbsp;&nbsp;WP-Leistung A"+d.apTemp+"/W"+d.vl, "≈ "+r1(d.apLeistung)+" kW");
+    res += zeile("&nbsp;&nbsp;Deckung", r0(d.deckung)+" %");
+    res += zeile("<strong>Bei Norm-Außentemperatur "+d.normAT+" °C</strong>", "");
+    res += zeile("&nbsp;&nbsp;Gebäudeheizlast", r1(d.hlFinal)+" kW");
+    res += zeile("&nbsp;&nbsp;WP-Leistung A"+d.normAT+"/W"+d.vl, "≈ "+r1(d.leistungBeiNormAT)+" kW");
+    res += zeile("&nbsp;&nbsp;Heizstab-Anteil", d.heizstabBeiNormAT<=0.05?"0 kW":"≈ "+r1(d.heizstabBeiNormAT)+" kW");
     res += zeile("Nennwärmeleistung A−7/W35", r1(d.gewaehlt.biv)+" kW");
-    res += zeile("Deckung am Auslegungspunkt", r0(d.deckung)+" %");
-    res += zeile("Heizstab-Anteil am AP", d.heizstabAnteil<=0.05?"0 kW":"≈ "+r1(d.heizstabAnteil)+" kW");
     res += '</table>';
     el("ps-result").innerHTML = res;
 
     // Bewertung
     var note = d.statusTxt.replace(/^[✓◐⚠]\s*/, "") + " " + d.bivTxt;
     if(d.taktRisiko) note += " Hinweis: Heizlast nahe der unteren Modulationsgrenze — ausreichendes Anlagenvolumen bzw. Pufferspeicher vorsehen.";
+    if(d.altVlInfo) note += " Heizflächen-Einschätzung: " + d.altVlInfo.kurz + " (Altanlage lief mit " + d.altVlInfo.altVl + " °C).";
     el("ps-note").textContent = note;
+
+    // Komponentenliste im Druck
+    if(d.komponenten && d.komponenten.length){
+      var kh = '<div class="ps-h" style="margin-top:16px;">Objektabhängige Zusatzpositionen</div>';
+      d.komponenten.forEach(function(item){
+        var mark = item.art === "pflicht" ? "■" : item.art === "bedingt" ? "▲" : "□";
+        kh += '<div class="psk-item"><span class="psk-mark">'+mark+'</span><span><span class="psk-name">'+item.name+'</span> — <span class="psk-desc">'+item.desc+'</span></span></div>';
+      });
+      kh += '<div class="psk-legende">■ erforderlich &nbsp; ▲ objektabhängig &nbsp; □ zu prüfen</div>';
+      el("ps-komponenten").innerHTML = kh;
+    } else {
+      el("ps-komponenten").innerHTML = "";
+    }
+
+    // Besonderheiten (nur ausgeben, wenn etwas eingetragen wurde)
+    var besFelder = [
+      {id:"bes-bestand",      label:"Bestandsanlage"},
+      {id:"bes-heizflaechen", label:"Heizflächen"},
+      {id:"bes-gebaeude",     label:"Gebäude"},
+      {id:"bes-auslegung",    label:"Auslegung & Aufstellung"}
+    ];
+    var bh = "", hatBes = false;
+    besFelder.forEach(function(f){
+      var e = el(f.id);
+      var txt = e ? (e.value||"").trim() : "";
+      if(txt){
+        hatBes = true;
+        var sicher = txt.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+        bh += '<div class="psb-item"><span class="psb-label">'+f.label+':</span> <span class="psb-text">'+sicher+'</span></div>';
+      }
+    });
+    el("ps-besonderheiten").innerHTML = hatBes
+      ? '<div class="ps-h" style="margin-top:16px;">Besonderheiten &amp; offene Punkte</div>' + bh
+      : "";
+
+    // Seitentitel = Dateiname beim Speichern als PDF
+    // Schrägstriche (z. B. "WEB 13/20") würden im Dateinamen stören -> ersetzen
+    var geraetSauber = d.gewaehlt.name.replace(/\//g, "-");
+    var titel = "Lutz Spring Auslegungstool";
+    if(name) titel += " - " + name;
+    titel += " - Weishaupt Evoblock " + geraetSauber;
+    document.title = titel;
   }
 
   // ---- Kundenliste (lokal gespeichert, überlebt Schließen/Neuöffnen) ----
   var STORAGE_KEY = "lutzspring_evoblock_kunden_v2";
   var WORK_KEY = "lutzspring_evoblock_work_v2";
-  var alleInputs = ["flaeche","personen","ap","vl","streng","pauschale","oel-verbrauch","oel-eta","gas-verbrauch","gas-eta","wp-strom","wp-jaz","d-baujahr","d-fenster","d-wand-mat","d-wand-dicke","d-wand-daemm","d-dach","u-wand-a","u-wand-u","u-dach-a","u-dach-u","u-fen-a","u-fen-u","u-bod-a","u-bod-u","hf-hk-anzahl","hf-beides-hk","hf-beides-vlhk","hf-beides-vlfbh"];
+  var alleInputs = ["flaeche","personen","ap","norm-at","vl","streng","pauschale","oel-verbrauch","oel-eta","gas-verbrauch","gas-eta","wp-strom","wp-jaz","d-baujahr","d-fenster","d-wand-mat","d-wand-dicke","d-wand-daemm","d-dach","u-wand-a","u-wand-u","u-dach-a","u-dach-u","u-fen-a","u-fen-u","u-bod-a","u-bod-u","hf-hk-anzahl","hf-beides-hk","hf-beides-vlhk","hf-beides-vlfbh","alt-vl-wert","alt-vl-komfort","bes-bestand","bes-heizflaechen","bes-gebaeude","bes-auslegung","sp-was","sp-wes","sp-wms"];
 
   var kunden = [];        // [{id, name, stand}]
   var aktuelleId = null;  // id des geladenen Kunden, null = ungespeicherter Arbeitsstand
 
   function standErfassen(){
-    var stand = { heizart: heizart, gebMode: gebMode, gasEinheit: gasEinheit, wpAufgabe: wpAufgabe, heizflaeche: heizflaeche, vlManuell: vlManuell, fbhVerteiler: fbhVerteiler, beidesVerteiler: beidesVerteiler, felder: {} };
+    var stand = { heizart: heizart, gebMode: gebMode, gasEinheit: gasEinheit, altVlBekannt: altVlBekannt, abwasser: abwasser, zirkulation: zirkulation, speicherKonzept: speicherKonzept, wpAufgabe: wpAufgabe, heizflaeche: heizflaeche, vlManuell: vlManuell, fbhVerteiler: fbhVerteiler, beidesVerteiler: beidesVerteiler, felder: {} };
     alleInputs.forEach(function(id){
       var e = el(id);
       if(!e) return;
@@ -1123,6 +1581,14 @@
     vlManuell = !!stand.vlManuell;
     wpAufgabe = stand.wpAufgabe || "heizung_ww";
     wpAufgabeAnwenden();
+    altVlBekannt = stand.altVlBekannt || "nein";
+    altVlAnwenden();
+    abwasser = stand.abwasser || "ja";
+    document.querySelectorAll("#abwasser button").forEach(function(x){ x.classList.toggle("active", x.getAttribute("data-abw")===abwasser); });
+    zirkulation = stand.zirkulation || "nein";
+    document.querySelectorAll("#zirkulation button").forEach(function(x){ x.classList.toggle("active", x.getAttribute("data-zirk")===zirkulation); });
+    speicherKonzept = stand.speicherKonzept || "getrennt";
+    speicherAnwenden();
     if(stand.fbhVerteiler && stand.fbhVerteiler.length){
       fbhVerteiler = stand.fbhVerteiler;
       verteilerRendern("fbh-verteiler-liste", fbhVerteiler, function(){ calc(); arbeitsstandSichern(); });
@@ -1239,6 +1705,14 @@
     location.reload();
   });
 
+  // Zurücksetzen fürs nächste Bauvorhaben (ohne Akte/Kundenliste)
+  el("reset-btn").addEventListener("click", function(){
+    if(!confirm("Alle Eingaben auf Standard zurücksetzen und mit einem leeren Bauvorhaben starten?")) return;
+    aktuelleId = null;
+    try{ localStorage.removeItem(WORK_KEY); }catch(e){}
+    location.reload();
+  });
+
   // Duplizieren: aktuellen Stand als neuen Fall (für Dämmvarianten)
   el("kunde-dupl").addEventListener("click", function(){
     var basisName = el("kunde-name").value.trim() || "Fall";
@@ -1300,6 +1774,9 @@
     document.querySelector('.heizart-card[data-heizart="oel"]').classList.add("active");
     el("panel-oel").classList.add("show");
   }
+
+  // Speicheranzeige initial setzen
+  speicherAnwenden();
 
   // Namensfeld aktualisiert die Druck-Zusammenfassung sofort
   el("kunde-name").addEventListener("input", function(){ calc(); });
