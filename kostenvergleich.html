@@ -35,6 +35,9 @@
   .brand-sub{color:#f5e400; font-size:13px; font-weight:600; letter-spacing:1.2px; text-align:center; white-space:nowrap;}
   .tool-title{font-size:13px; color:#a8b4c8; text-align:right; line-height:1.5;}
   .tool-title strong{display:block; color:#fff; font-size:15px; font-weight:600;}
+  .zurueck{display:inline-flex; align-items:center; justify-content:center; width:48px; height:48px; flex-shrink:0; color:var(--accent); text-decoration:none; line-height:1; opacity:.45; transition:opacity .12s;}
+  .zurueck:hover{opacity:1;}
+  .zurueck:active{opacity:.3;}
   .hinweis{
     background:var(--warn-bg); border-radius:var(--radius);
     padding:11px 15px; margin-bottom:26px; font-size:13px;
@@ -109,6 +112,7 @@
     body{ background:#fff; font-size:12px; }
     .wrap{ max-width:100%; padding:0; }
     #print-btn-wrap{ display:none !important; }
+    .zurueck{ display:none; }
     header{ padding:16px 20px; margin:0 0 16px; }
     .brand img.logo-img{ width:140px; }
     .hinweis{ page-break-inside:avoid; break-inside:avoid; }
@@ -347,6 +351,10 @@
   <footer>
     Formel: Kosten = Wärmebedarf ÷ Wirkungsgrad (bzw. effektive JAZ) × Energiepreis. Rein informelle Ersteinschätzung, ersetzt keine Angebotsrechnung.
   </footer>
+
+  <div style="display:flex; justify-content:center; margin-top:26px;">
+    <a class="zurueck" href="index.html" title="Zur Startseite" aria-label="Zur Startseite"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3.5l9 7"/><path d="M5.5 9.5V20h13V9.5"/><path d="M9.75 20v-5.5h4.5V20"/></svg></a>
+  </div>
 
 </div>
 
