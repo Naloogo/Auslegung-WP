@@ -21,6 +21,9 @@
   body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.45;font-size:15px}
   header{background:var(--navy);color:#fff;padding:16px 22px;display:flex;align-items:center;gap:14px;box-shadow:0 2px 8px rgba(0,0,0,.15)}
   .logo{display:flex;align-items:center;gap:12px;width:100%}
+  .zurueck{display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;flex-shrink:0;color:var(--navy);text-decoration:none;line-height:1;opacity:.45;transition:opacity .12s}
+  .zurueck:hover{opacity:1}
+  .zurueck:active{opacity:.3}
   .logo-mark{width:44px;height:44px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--navy-light));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px;letter-spacing:-1px;border:2px solid rgba(255,255,255,.25)}
   .logo-img{height:46px;width:auto;display:block}
   @media(max-width:600px){.logo-img{height:38px}}
@@ -141,6 +144,7 @@
   #printArea{display:none}
   @media print{
     header, .wrap > .grid, .projbar, .footer{display:none !important}
+    .zurueck{display:none !important}
     .wrap{max-width:100%;padding:0}
     #printArea{display:block !important;font-size:12px;color:#000}
     #printArea .ph{display:flex;justify-content:space-between;align-items:flex-start;background:#1a2b4a;color:#fff;padding:18px 22px;margin:-0px 0 16px;border-radius:8px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
@@ -437,6 +441,9 @@
 <div class="footer">
   Kermi therm-x2 (2015/2018) · Kermi Verteo-Profil (BH 1600–2400) · Arbonia Röhren (EN 442) · Zehnder Charleston (EN 442)<br>
   Auslegungstool Lutz Spring GmbH · Angaben ohne Gewähr · maßgeblich sind die Herstellerunterlagen
+</div>
+<div style="display:flex; justify-content:center; margin-top:26px;">
+  <a class="zurueck" href="index.html" title="Zur Startseite" aria-label="Zur Startseite"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3.5l9 7"/><path d="M5.5 9.5V20h13V9.5"/><path d="M9.75 20v-5.5h4.5V20"/></svg></a>
 </div>
 </div>
 
