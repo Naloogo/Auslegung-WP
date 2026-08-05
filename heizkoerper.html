@@ -79,6 +79,12 @@
   .cov.tight{color:var(--amber)}
   .tag-best{background:var(--green);color:#fff;padding:1px 7px;border-radius:5px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-left:6px}
   .tag-bestand{background:var(--accent);color:#fff;padding:1px 7px;border-radius:5px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-left:6px}
+  .tag-lager{background:#2c6cb8;color:#fff;padding:1px 7px;border-radius:5px;font-size:10px;font-weight:700;letter-spacing:.3px;margin-left:6px;white-space:nowrap}
+  .lager-row{background:#eff5fc}
+  .lager-row:hover{background:#e2eefa}
+  .lager-status{margin:0 0 14px;padding:8px 14px;border-radius:8px;font-size:12.5px;font-weight:600}
+  .lager-status.ok{background:#e8f0fb;border:1px solid #2c6cb8;color:#194a82}
+  .lager-status.warn{background:#f4f4f0;border:1px solid var(--line);color:var(--muted)}
   .clickrow{cursor:pointer}
   .clickrow.active-row{background:#dfeaf6 !important;box-shadow:inset 3px 0 0 var(--accent)}
   .bez-box{background:linear-gradient(135deg,#1a2b4a,#28406b);color:#fff;border-radius:10px;padding:16px 18px;margin-bottom:14px}
@@ -236,6 +242,8 @@
   Danach in Safari über „Teilen → Zum Home-Bildschirm“ als App-Icon ablegen. Zum dauerhaften Sichern von Projekten
   nutze <b>„Projekt sichern (Datei)“</b>.
 </div>
+
+<div class="lager-status" id="lagerStatus" style="display:none"></div>
 
 <!-- ============ PROJEKT / RAUM ============ -->
 <div class="projbar">
@@ -414,6 +422,20 @@
         <label><input type="radio" name="ausf" value="FK0"> nur Kompakt (FK0)</label>
         <label><input type="radio" name="ausf" value="FTV"> nur Ventil (FTV)</label>
       </div>
+      <div id="bauformgroup" style="margin-top:8px;display:none">
+        <label style="font-size:12px;color:var(--muted);margin-bottom:5px">Bauform</label>
+        <div class="checkgroup">
+          <label><input type="radio" name="bauform" value="profil" checked> Profil</label>
+          <label><input type="radio" name="bauform" value="plan"> Plan</label>
+        </div>
+      </div>
+      <div id="anschlussgroup" style="margin-top:8px;display:none">
+        <label style="font-size:12px;color:var(--muted);margin-bottom:5px">Ventil-Anschluss (bei FTV)</label>
+        <div class="checkgroup">
+          <label><input type="radio" name="anschluss" value="rechts" checked> Rechts</label>
+          <label><input type="radio" name="anschluss" value="links"> Links</label>
+        </div>
+      </div>
 
       <button class="btn" id="calc">Passende Heizkörper suchen</button>
       <button class="btn-sec btn" id="clear">Zurücksetzen</button>
@@ -475,6 +497,56 @@ const KERMI = {
 const KERMI_BAULAENGEN = [400,500,600,700,800,900,1000,1100,1200,1300,1400,1600,1800,2000,2300,2600,3000];
 // Bautiefe je Typ (mm) — für Info
 const KERMI_BAUTIEFE = {"11":61,"22":100,"33":155};
+
+/* ============================================================
+   KERMI therm-x2 PLAN — Leistungsdaten (VERIFIZIERT)
+   Basis: Kermi-Leistungsrechner bei 50/40/20. Norm-W (75/65/20) so
+   hinterlegt, dass Umrechnung bei 50/40 die Screenshot-Werte trifft
+   (max. 0,56% Abweichung, sl-Mittelung je Bauhöhe).
+   WICHTIG: Plan-Bauhöhen enden auf 5 (205/305/…/905) und Baulängen
+   ebenfalls (405/505/…/3005) — anders als Profil (200/300, 400/500…).
+   Struktur: TYP -> Bauhöhe(mm) -> {sl: W/m bei 75/65/20, n: Exponent}
+   ============================================================ */
+const KERMI_PLAN = {
+  "11":{
+    305:{sl:481.32,n:1.26},
+    405:{sl:610.83,n:1.26},
+    505:{sl:738.17,n:1.26},
+    605:{sl:864.19,n:1.26},
+    705:{sl:989.16,n:1.26},
+    905:{sl:1240.84,n:1.26}
+  },
+  "22":{
+    205:{sl:662.07,n:1.29},
+    305:{sl:892.48,n:1.29},
+    405:{sl:1108.94,n:1.29},
+    505:{sl:1315.86,n:1.29},
+    605:{sl:1517.76,n:1.29},
+    705:{sl:1715.07,n:1.29},
+    905:{sl:2099.59,n:1.29}
+  },
+  "33":{
+    205:{sl:977.92,n:1.28},
+    305:{sl:1268.63,n:1.28},
+    405:{sl:1609.13,n:1.28},
+    505:{sl:1923.2,n:1.28},
+    605:{sl:2212.55,n:1.28},
+    705:{sl:2469.06,n:1.28},
+    905:{sl:2917.03,n:1.28}
+  }
+};
+const KERMI_PLAN_DATEN_ECHT = true; // echte Plan-Werte hinterlegt (verifiziert)
+// Plan-Baulängen (mm) laut Leistungsrechner (enden auf 5)
+const KERMI_PLAN_BAULAENGEN = [405,505,605,705,805,905,1005,1105,1205,1305,1405,1605,1805,2005,2305,2605,3005];
+
+// Aktive Kermi-Bauform: 'profil' oder 'plan' (nur für Kermi therm-x2 relevant)
+let KERMI_BAUFORM = 'profil';
+
+/* Flächen-Toleranz beim Filter „Bauhöhe/Baulänge max." (mm).
+   Heizkörper, die max. um diesen Wert größer sind als die angegebene
+   Fläche, werden trotzdem noch angezeigt. Praxisgrund: Plan-Maße enden
+   auf 5 (605 statt 600) und ein kleiner Überhang ist beim Einbau unkritisch. */
+const FLAECHEN_TOLERANZ = 20;
 
 /* ============================================================
    KERMI Schnellmontageset (WA, 30mm, weiß) — Wandkonsolen
@@ -709,6 +781,74 @@ const VERTEO_BAUTIEFE = {"10":61,"20":64,"21":64,"22":100};
    ============================================================ */
 let HERSTELLER = "kermi"; // "kermi" | "arbonia"
 
+/* ============================================================
+   LAGERBESTAND (externe lager.json)
+   Wird beim Start geladen. Heizkörper, die im Lager liegen UND
+   die Heizlast decken, werden bevorzugt vorgeschlagen.
+   Aktualisieren: nur lager.json austauschen, HTML bleibt gleich.
+   Funktioniert auf GitHub Pages / Firmenserver (echte URL).
+   ============================================================ */
+let LAGER = [];            // Array der Bestandspositionen
+let LAGER_STAND = null;    // Datum aus der Datei
+let LAGER_GELADEN = false;
+
+async function ladeLager(){
+  try{
+    const resp = await fetch('lager.json', {cache:'no-store'});
+    if(!resp.ok) throw new Error('HTTP '+resp.status);
+    const data = await resp.json();
+    LAGER = Array.isArray(data.bestand) ? data.bestand : [];
+    LAGER_STAND = data.stand || null;
+    LAGER_GELADEN = true;
+    zeigeLagerStatus(true);
+    if(typeof run==='function') run(); // Ergebnis mit Lager-Info neu rendern
+  }catch(e){
+    // Kein Lager verfügbar (z.B. lokal per iCloud geöffnet) -> Tool läuft normal weiter
+    LAGER_GELADEN = false;
+    zeigeLagerStatus(false, e.message);
+  }
+}
+
+// Prüft, ob ein Heizkörper (Hersteller/Typ/BH/BL) im Lager liegt.
+// Bei Kermi wird zusätzlich die Bauform (profil/plan) abgeglichen,
+// bei Ventilausführung die Anschlussseite. Falsche Bauform/Seite -> kein Treffer.
+function imLager(hersteller, typ, bh, bl, v, anschluss){
+  if(!LAGER.length) return null;
+  return LAGER.find(p => {
+    if(String(p.hersteller)!==String(hersteller)) return false;
+    if(String(p.typ)!==String(typ)) return false;
+    if(Number(p.bh)!==Number(bh)) return false;
+    if(Number(p.bl)!==Number(bl)) return false;
+    if(Number(p.stueck)<=0) return false;
+    // Bauform (nur Kermi): Plan-Lager nicht für Profil-Auslegung vorschlagen und umgekehrt.
+    // Fehlt die Angabe in der Lager-Position, wird sie als 'profil' gewertet (Altbestände).
+    if(hersteller==='kermi'){
+      const lagerBauform = p.bauform || 'profil';
+      if(lagerBauform !== KERMI_BAUFORM) return false;
+    }
+    // Ventil-Anschlussseite
+    if(v==='V' && p.anschluss){
+      const gesucht = anschluss==='links' ? 'links' : 'rechts';
+      if(String(p.anschluss)!==gesucht) return false;
+    }
+    return true;
+  }) || null;
+}
+
+function zeigeLagerStatus(ok, fehler){
+  const el=document.getElementById('lagerStatus');
+  if(!el) return;
+  if(ok){
+    const n=LAGER.reduce((s,p)=>s+(Number(p.stueck)||0),0);
+    el.innerHTML = `📦 Lagerbestand geladen: ${LAGER.length} Positionen (${n} Stück)${LAGER_STAND?` · Stand ${LAGER_STAND}`:''}`;
+    el.className='lager-status ok';
+    el.style.display='block';
+  } else {
+    // Kein Lager (z.B. lokal geöffnet) -> Container ausgeblendet lassen, Tool läuft normal
+    el.style.display='none';
+  }
+}
+
 function DB(){
   if(HERSTELLER==="arbonia"){
     return {
@@ -820,39 +960,54 @@ function DB(){
       }
     };
   }
-  // default Kermi
+  // default Kermi therm-x2 – je nach Bauform Profil oder Plan
+  const istPlan = KERMI_BAUFORM==='plan';
+  const kdata = istPlan ? KERMI_PLAN : KERMI;
+  const bauformLabel = istPlan ? 'Plan' : 'Profil';
   return {
-    name:"Kermi therm-x2 Profil-K / -V",
-    data:KERMI,
+    name:`Kermi therm-x2 ${bauformLabel}-K / -V`,
+    data:kdata,
     typen:["11","22","33"],
     typLabel:t=>"Typ "+t,
     bautiefe:KERMI_BAUTIEFE,
-    baulaengen:KERMI_BAULAENGEN,
+    baulaengen: istPlan ? KERMI_PLAN_BAULAENGEN : KERMI_BAULAENGEN,
     normW:(typ,bh,bl_mm)=>{
-      const d=KERMI[typ]?.[bh]; if(!d) return null;
+      const d=kdata[typ]?.[bh]; if(!d) return null;
       return d.sl*(bl_mm/1000);
     },
-    expo:(typ,bh)=>KERMI[typ]?.[bh]?.n,
+    expo:(typ,bh)=>kdata[typ]?.[bh]?.n,
     ausfLabel:"K/V",
     hatAusf:true,
-    // Exakte Produktbezeichnung Kermi therm-x2
-    // Bestellschlüssel: FK0 (Profil-K) / FTV (Profil-V) + Typ + BH-dm(2) + BL-dm(2)
-    // Bsp: FK0220918 = Profil-K Typ22 BH900 BL1800
-    // Kurznummer nur bildbar, wenn BH und BL sauber im 2-stelligen dm-Raster liegen
-    bezeichnung:(typ,bh,bl,v)=>{
-      const ausf = v==='V' ? 'Profil-V' : 'Profil-K';
-      const praefix = v==='V' ? 'FTV' : 'FK0';
-      const bhDm = bh/100, blDm = bl/100; // 900->9, 1800->18
+    bauform:KERMI_BAUFORM,
+    // Bestellschlüssel Profil: FK0/FTV · Plan: PK0/PTV (nur Anfangsbuchstabe F->P)
+    // dm-Kodierung: Profil-Maße enden auf 0 (exakt), Plan-Maße auf 5 -> abrunden (floor).
+    // Kompakt: <praefix>K0 + Typ + BH-dm(2) + BL-dm(2)
+    // Ventil:  <praefix>TV + Typ + BH-dm(3) + BL-dm(3) + 1 + R/L + 1K
+    bezeichnung:(typ,bh,bl,v,anschluss)=>{
+      const P = istPlan ? 'P' : 'F';           // Profil=F, Plan=P
+      const ausf = `${bauformLabel}-${v==='V'?'V':'K'}`;
+      const praefix = v==='V' ? `${P}TV` : `${P}K0`;
       let bestellnr;
-      // sauber kodierbar nur bei ganzzahligen dm ≤ 99
-      if(Number.isInteger(bhDm) && Number.isInteger(blDm) && bhDm<=9 && blDm<=99){
-        bestellnr = `${praefix}${typ}${String(bhDm).padStart(2,'0')}${String(blDm).padStart(2,'0')}`;
+      if(v==='V'){
+        const seite = anschluss==='links' ? 'L' : 'R';
+        const bhDm = Math.floor(bh/10), blDm = Math.floor(bl/10);
+        if(bhDm<=999 && blDm<=999){
+          bestellnr = `${praefix}${typ}${String(bhDm).padStart(3,'0')}${String(blDm).padStart(3,'0')}1${seite}1K`;
+        } else {
+          bestellnr = null;
+        }
       } else {
-        bestellnr = null; // z.B. BH750, BL3000 -> nur Klartext, keine falsche Nummer
+        const bhDm = Math.floor(bh/100), blDm = Math.floor(bl/100);
+        if(bhDm<=9 && blDm<=99){
+          bestellnr = `${praefix}${typ}${String(bhDm).padStart(2,'0')}${String(blDm).padStart(2,'0')}`;
+        } else {
+          bestellnr = null;
+        }
       }
+      const seiteTxt = v==='V' ? `, Anschluss ${anschluss==='links'?'links':'rechts'}` : '';
       return {
-        modell: `therm-x2 ${ausf} Typ ${typ}`,
-        klartext: `Kermi therm-x2 ${ausf} (${praefix}) Typ ${typ}, ${bh} × ${bl} mm, BT ${KERMI_BAUTIEFE[typ]} mm`,
+        modell: `therm-x2 ${ausf} Typ ${typ}${v==='V'?(anschluss==='links'?' (L)':' (R)'):''}`,
+        klartext: `Kermi therm-x2 ${ausf} (${praefix}) Typ ${typ}, ${bh} × ${bl} mm, BT ${KERMI_BAUTIEFE[typ]} mm${seiteTxt}`,
         bestellnr: bestellnr,
         detail: `Nabenabstand ${bh-54} mm`
       };
@@ -939,6 +1094,7 @@ function getInputs(){
     maxH:+document.getElementById('maxH').value,
     maxL:+document.getElementById('maxL').value,
     typen, ausf,
+    anschluss:(document.querySelector('input[name=anschluss]:checked')||{}).value||'rechts',
     bestand:document.getElementById('bestand').value,
     gusstiefe:(()=>{
       const frei=document.getElementById('gusstiefeFrei').value;
@@ -949,6 +1105,20 @@ function getInputs(){
   };
 }
 function ausfLabel(a){return a==='FTV'?'V (Ventil)':a==='FK0'?'K (Kompakt)':'K/V';}
+// Anschluss-Auswahl nur zeigen, wenn Kermi therm-x2 UND Ventil im Spiel (both oder FTV)
+function aktualisiereAnschlussGruppe(){
+  const el=document.getElementById('anschlussgroup');
+  if(!el) return;
+  const ausf=(document.querySelector('input[name=ausf]:checked')||{}).value;
+  const zeigen = HERSTELLER==='kermi' && (ausf==='FTV'||ausf==='both');
+  el.style.display = zeigen?'block':'none';
+}
+document.querySelectorAll('input[name=ausf]').forEach(r=>
+  r.addEventListener('change',()=>{ aktualisiereAnschlussGruppe(); run(); }));
+document.querySelectorAll('input[name=anschluss]').forEach(r=>
+  r.addEventListener('change',()=>run()));
+document.querySelectorAll('input[name=bauform]').forEach(r=>
+  r.addEventListener('change',()=>{ KERMI_BAUFORM=r.value; buildTypeUI(); run(); }));
 
 /* ---------- Hersteller-Umschaltung + dynamische UI ---------- */
 function buildTypeUI(){
@@ -960,6 +1130,10 @@ function buildTypeUI(){
   ).join('');
   // Ausführungsgruppe nur bei Kermi
   document.getElementById('ausfgroup').style.display = db.hatAusf?'flex':'none';
+  // Bauform-Gruppe (Profil/Plan) nur bei Kermi therm-x2
+  const bfg=document.getElementById('bauformgroup');
+  if(bfg) bfg.style.display = (HERSTELLER==='kermi')?'block':'none';
+  aktualisiereAnschlussGruppe();
   // Bestand-Dropdown
   const bs=document.getElementById('bestand');
   bs.innerHTML = `<option value="">— kein Bestand / freie Wahl —</option>` +
@@ -1009,9 +1183,9 @@ function runFit(){
   i.typen.forEach(typ=>{
     if(!db.data[typ]) return;
     Object.keys(db.data[typ]).map(Number).forEach(bh=>{
-      if(bh>i.maxH) return;
+      if(bh>i.maxH+FLAECHEN_TOLERANZ) return;
       db.baulaengen.forEach(bl=>{
-        if(bl>i.maxL) return;
+        if(bl>i.maxL+FLAECHEN_TOLERANZ) return;
         const w = leistung(typ,bh,bl,i.tv,i.tr,i.tl);
         // Single-Modus: nur HK die allein den Bedarf decken.
         // Multi-Modus: alle HK die in die Fläche passen (zum Kombinieren).
@@ -1019,28 +1193,58 @@ function runFit(){
         if(nehmen){
           ausfVarianten.forEach(v=>{
             const tiefe=db.bautiefe[typ];
+            // Lager-Abgleich inkl. Ausführung (K/V) und – bei Ventil – Anschlussseite.
+            // Ein Ventil mit falscher Seite (z.B. Lager=links, gesucht=rechts) wird NICHT gefunden.
+            const lagerPos = imLager(HERSTELLER, typ, bh, bl, v, i.anschluss);
+            // Single: Lager-HK muss die Heizlast ALLEIN decken.
+            // Multi: Lager-HK reicht, wenn er in die Fläche passt (Kombination mit anderen möglich).
+            //        Die Flächenprüfung ist durch die maxH/maxL-Filter oben bereits garantiert.
+            const lagerBevorzugt = HK_MODE==='multi'
+              ? !!lagerPos
+              : !!(lagerPos && w>=bedarf);
             out.push({typ,bh,bl,w,v,
               cover:w/i.heizlast,
               flaeche:bh*bl,
               tiefe,
-              tiefeDelta: i.gusstiefe!=null?Math.abs(tiefe-i.gusstiefe):null});
+              tiefeDelta: i.gusstiefe!=null?Math.abs(tiefe-i.gusstiefe):null,
+              lager: lagerPos||null,
+              lagerBevorzugt});
           });
         }
       });
     });
   });
 
+  // Lager-Positionen dieses Herstellers, die NICHT in der Trefferliste sind
+  // (passen nicht in die Fläche ODER decken die Heizlast nicht) -> als Info anzeigen
+  const lagerNichtNutzbar = LAGER.filter(p =>
+    String(p.hersteller)===String(HERSTELLER) && Number(p.stueck)>0 &&
+    !out.some(r => r.lager && r.lager===p && r.lagerBevorzugt)
+  ).map(p=>{
+    const passtFlaeche = Number(p.bh)<=i.maxH+FLAECHEN_TOLERANZ && Number(p.bl)<=i.maxL+FLAECHEN_TOLERANZ;
+    let grund;
+    if(!passtFlaeche) grund = `passt nicht in die Fläche (max. ${i.maxH}×${i.maxL} mm)`;
+    else {
+      const w = leistung(p.typ, Number(p.bh), Number(p.bl), i.tv, i.tr, i.tl);
+      grund = (w!=null && w<bedarf) ? `deckt die Heizlast nicht (${Math.round(w)} W < ${Math.round(bedarf)} W)` : 'nicht passend';
+    }
+    return {pos:p, grund};
+  });
+
   // Sortierung
   if(HK_MODE==='multi'){
     // Multi: stärkste HK zuerst (leichter zu kombinieren), Bestandstyp/Tiefe trotzdem berücksichtigen
     out.sort((a,b)=>{
+      // Lager-HK, die decken, ganz nach oben
+      if(a.lagerBevorzugt!==b.lagerBevorzugt) return a.lagerBevorzugt?-1:1;
       if(i.bestand){ const aB=a.typ===i.bestand?0:1, bB=b.typ===i.bestand?0:1; if(aB!==bB) return aB-bB; }
       if(i.gusstiefe!=null){ const aS=Math.round(a.tiefeDelta/20), bS=Math.round(b.tiefeDelta/20); if(aS!==bS) return aS-bS; }
       return b.w-a.w; // stärkste zuerst
     });
   } else {
-    // Single: Bestandstyp -> Gusstiefe -> kleinste Fläche -> knappste Deckung
+    // Single: Lager-Treffer -> Bestandstyp -> Gusstiefe -> kleinste Fläche -> knappste Deckung
     out.sort((a,b)=>{
+      if(a.lagerBevorzugt!==b.lagerBevorzugt) return a.lagerBevorzugt?-1:1;
       if(i.bestand){
         const aB = a.typ===i.bestand?0:1, bB = b.typ===i.bestand?0:1;
         if(aB!==bB) return aB-bB;
@@ -1053,20 +1257,30 @@ function runFit(){
     });
   }
 
-  renderFit(out,i,bedarf);
+  renderFit(out,i,bedarf,lagerNichtNutzbar);
 }
 
-function renderFit(list,i,bedarf){
+function renderFit(list,i,bedarf,lagerNichtNutzbar){
   const db=DB();
   const el=document.getElementById('out');
   let html = summaryHTML(i,bedarf);
 
   if(list.length===0){
+    let leerLager = '';
+    if(lagerNichtNutzbar && lagerNichtNutzbar.length){
+      const items = lagerNichtNutzbar.map(x=>{
+        const p=x.pos;
+        return `<li>${DB().typLabel(p.typ)}${p.v?' '+p.v:''} ${p.bh}×${p.bl} mm (${p.stueck} St.${p.notiz?', '+p.notiz:''}) – ${x.grund}</li>`;
+      }).join('');
+      leerLager = `<div class="warnbox" style="background:#f6f3ea;border-color:#c9a94a;color:#6b5518;margin-top:10px">
+        📦 Im Lager vorhanden, aber hier nicht einsetzbar:
+        <ul style="margin:5px 0 0;padding-left:20px">${items}</ul></div>`;
+    }
     html += `<div class="card"><div class="warnbox">
       <b>Kein Heizkörper</b> deckt bei ${i.tv}/${i.tr} °C die Heizlast innerhalb der Fläche
       ${i.maxH}×${i.maxL} mm. Wechsle zu Tab ② um die nötige Systemtemperatur zu ermitteln,
       oder vergrößere die Installationsfläche.
-    </div></div>`;
+    </div>${leerLager}</div>`;
     el.innerHTML=html; return;
   }
 
@@ -1079,6 +1293,7 @@ function renderFit(list,i,bedarf){
     const isBest = r===best;
     const istBestand = i.bestand && r.typ===i.bestand;
     const bestandTag = istBestand ? '<span class="tag-bestand">= Bestand</span>' : '';
+    const lagerTag = r.lager ? `<span class="tag-lager" title="${r.lager.notiz?r.lager.notiz+' · ':''}${r.lager.anschluss?'Anschluss '+r.lager.anschluss+' · ':''}auf Lager">📦 Lager: ${r.lager.stueck} St.${r.lager.anschluss?' ('+r.lager.anschluss+')':''}</span>` : '';
     // Tiefenabweichung zum Guss-Bestand anzeigen
     let btZelle = `${r.tiefe}`;
     if(i.gusstiefe!=null){
@@ -1087,16 +1302,43 @@ function renderFit(list,i,bedarf){
       const vz = d>0?'+':'';
       btZelle = `${r.tiefe} <span style="color:${farbe};font-size:11px">(${vz}${d})</span>`;
     }
-    return `<tr class="${isBest?'best':''} clickrow" data-idx="${idx}">
-      <td><b>${db.typLabel(r.typ)}</b> ${r.v}${isBest?'<span class="tag-best">Empfehlung</span>':''}${bestandTag}</td>
-      <td class="num">${r.bh}</td>
-      <td class="num">${r.bl}</td>
+    // Überhang anzeigen, wenn HK größer als angegebene Fläche (innerhalb Toleranz)
+    const bhUeber = r.bh - i.maxH, blUeber = r.bl - i.maxL;
+    const bhZelle = bhUeber>0 ? `${r.bh} <span style="color:var(--amber);font-size:11px" title="${bhUeber} mm höher als angegeben">+${bhUeber}</span>` : `${r.bh}`;
+    const blZelle = blUeber>0 ? `${r.bl} <span style="color:var(--amber);font-size:11px" title="${blUeber} mm länger als angegeben">+${blUeber}</span>` : `${r.bl}`;
+    return `<tr class="${isBest?'best':''}${r.lagerBevorzugt?' lager-row':''} clickrow" data-idx="${idx}">
+      <td><b>${db.typLabel(r.typ)}</b> ${r.v}${isBest?'<span class="tag-best">Empfehlung</span>':''}${lagerTag}${bestandTag}</td>
+      <td class="num">${bhZelle}</td>
+      <td class="num">${blZelle}</td>
       <td class="num">${btZelle}</td>
       <td class="num"><b>${Math.round(r.w)}</b></td>
       <td class="num cov ${tight?'tight':'ok'}">${(r.cover*100).toFixed(0)}%</td>
       <td><span class="pill ${tight?'pill-tight':'pill-fit'}">${tight?'knapp':'ok'}</span></td>
     </tr>`;
   }).join('');
+
+  // Lager-Hinweis wenn Treffer vorhanden
+  const lagerTreffer = list.filter(r=>r.lagerBevorzugt);
+  let lagerHinweis = lagerTreffer.length
+    ? (HK_MODE==='multi'
+        ? `<div class="warnbox" style="background:#e8f0fb;border-color:#2c6cb8;color:#194a82">
+             📦 <b>${lagerTreffer.length} Lager-Heizkörper</b> ${lagerTreffer.length>1?'passen':'passt'} in die Fläche und ${lagerTreffer.length>1?'sind':'ist'} oben markiert.
+             Im Kombinations-Modus kannst du prüfen, ob sie sich – ggf. zusammen mit weiteren Heizkörpern – für den Raum nutzen lassen.</div>`
+        : `<div class="warnbox" style="background:#e8f0fb;border-color:#2c6cb8;color:#194a82">
+             📦 <b>${lagerTreffer.length} passende${lagerTreffer.length>1?' Heizkörper liegen':'r Heizkörper liegt'} auf Lager</b> und
+             ${lagerTreffer.length>1?'werden':'wird'} bevorzugt vorgeschlagen (oben markiert). Kein Neukauf nötig, wenn die Deckung passt.</div>`)
+    : '';
+  // Lager-HK die vorhanden sind, aber nicht passen -> dezenter Hinweis
+  if(lagerNichtNutzbar && lagerNichtNutzbar.length){
+    const items = lagerNichtNutzbar.map(x=>{
+      const p=x.pos;
+      const label = `${DB().typLabel(p.typ)}${p.v?' '+p.v:''} ${p.bh}×${p.bl} mm (${p.stueck} St.${p.notiz?', '+p.notiz:''})`;
+      return `<li>${label} – ${x.grund}</li>`;
+    }).join('');
+    lagerHinweis += `<div class="warnbox" style="background:#f6f3ea;border-color:#c9a94a;color:#6b5518">
+         📦 Weitere Lagerware vorhanden, aber hier nicht einsetzbar:
+         <ul style="margin:5px 0 0;padding-left:20px">${items}</ul></div>`;
+  }
 
   const bestandHinweis = i.bestand
     ? (bestandTreffer
@@ -1117,6 +1359,7 @@ function renderFit(list,i,bedarf){
   const ausfInfo = db.hatAusf ? ` · Ausführung ${ausfLabel(i.ausf)}` : '';
   html += `<div class="card">
     <h2>Passende Heizkörper <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted);font-size:12px">${list.length} Treffer${ausfInfo}</span></h2>
+    ${lagerHinweis}
     ${bestandHinweis}
     ${gussHinweis}
     <div id="bezPanel"></div>
@@ -1253,7 +1496,7 @@ function zeigeBezeichnung(idx){
   // Leistung/Deckung nachrechnen falls Zeile aus Modus ②/③ kommt (dort nicht vorberechnet)
   const w = (r.w!=null)? r.w : leistung(r.typ,r.bh,r.bl,i.tv,i.tr,i.tl);
   const cover = (r.cover!=null)? r.cover : (w!=null? w/i.heizlast : null);
-  const b=db.bezeichnung(r.typ,r.bh,r.bl,r.v||'');
+  const b=db.bezeichnung(r.typ,r.bh,r.bl,r.v||'', i.anschluss);
   AKTUELLE_AUSWAHL = {r:{...r, w, cover}, bez:b, hersteller:HERSTELLER, dbName:db.name};
   const panel=document.getElementById('bezPanel');
   if(!panel) return;
@@ -1376,9 +1619,9 @@ function runTemp(){
   i.typen.forEach(typ=>{
     if(!db.data[typ]) return;
     Object.keys(db.data[typ]).map(Number).forEach(bh=>{
-      if(bh>i.maxH) return;
+      if(bh>i.maxH+FLAECHEN_TOLERANZ) return;
       db.baulaengen.forEach(bl=>{
-        if(bl>i.maxL) return;
+        if(bl>i.maxL+FLAECHEN_TOLERANZ) return;
         const r = requiredVL(typ,bh,bl,bedarf,spreizung,i.tl);
         ausfVarianten.forEach(v=>{
           out.push({typ,bh,bl,v,
@@ -1580,7 +1823,7 @@ function runRoom(){
   i.typen.forEach(typ=>{
     if(!db.data[typ]) return;
     Object.keys(db.data[typ]).map(Number).forEach(bh=>{
-      if(bh>i.maxH) return;
+      if(bh>i.maxH+FLAECHEN_TOLERANZ) return;
       const passende = db.baulaengen.filter(bl=>bl<=i.maxL && db.normW(typ,bh,bl)!=null);
       if(passende.length===0) return;
       const bl = Math.max(...passende); // größter existierender HK in der Fläche
@@ -1830,6 +2073,7 @@ function saveState(){
       raumname:document.getElementById('raumname').value,
       etage:AKTUELLE_ETAGE,
       hersteller:HERSTELLER,
+      bauform:KERMI_BAUFORM,
       inputs:{
         heizlast:document.getElementById('heizlast').value,
         reserve:document.getElementById('reserve').value,
@@ -1859,6 +2103,10 @@ function loadState(){
     if(s.hersteller){
       HERSTELLER=s.hersteller;
       document.querySelectorAll('.mfr-tab').forEach(x=>x.classList.toggle('active',x.dataset.mfr===HERSTELLER));
+    }
+    if(s.bauform){
+      KERMI_BAUFORM=s.bauform;
+      document.querySelectorAll('input[name=bauform]').forEach(x=>x.checked=(x.value===KERMI_BAUFORM));
     }
     if(s.inputs){
       const i=s.inputs;
@@ -2404,6 +2652,7 @@ syncPreset();
 syncRtPreset();
 renderRaumliste();
 run();
+ladeLager(); // Lagerbestand asynchron laden, danach wird run() erneut aufgerufen
 </script>
 </body>
 </html>
