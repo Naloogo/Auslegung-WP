@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Evoblock Auslegungstool · Lutz Spring GmbH</title>
+<title>Auslegungstool Wärmepumpe · Lutz Spring GmbH</title>
 <style>
   :root{
     --bg:#f4f3ee; --card:#ffffff; --surface:#faf9f5;
@@ -58,6 +58,12 @@
   label.fld{display:block; font-size:13px; color:var(--text-2); margin-bottom:7px;}
   .row{display:flex; align-items:center; gap:11px;}
   .val{font-size:14px; font-weight:600; min-width:66px; text-align:right;}
+  .val-input{
+    width:72px; height:34px; padding:0 8px; font-size:14px; font-weight:600;
+    font-family:var(--font); color:var(--text); text-align:right;
+    background:var(--card); border:1px solid var(--border-strong); border-radius:var(--radius); outline:none;
+  }
+  .val-input:focus{border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-bg);}
   select, input[type=number]{
     width:100%; height:38px; padding:0 11px; font-size:14px;
     font-family:var(--font); color:var(--text);
@@ -153,6 +159,15 @@
   .komp-legende{font-size:11px; color:var(--text-3); margin-top:12px; display:flex; gap:16px; flex-wrap:wrap;}
   .komp-legende span{display:inline-flex; align-items:center; gap:5px;}
   .komp-legende i{width:10px; height:10px; border-radius:50%; display:inline-block;}
+  .alt-card{margin-top:14px; padding:14px 16px; border:1px dashed var(--border-strong); border-radius:10px; background:#f4f3ee; opacity:.62; transition:opacity .15s;}
+  .alt-card:hover{opacity:.85;}
+  .alt-card.aktiv{opacity:1; border-style:solid; border-color:#c98a2b; background:#fdf8f0;}
+  .alt-head{font-size:14px; font-weight:700; color:var(--text); margin-bottom:6px;}
+  .alt-head .alt-sub{font-size:11px; font-weight:400; color:var(--text-3); text-transform:uppercase; letter-spacing:.4px; margin-left:4px;}
+  .alt-badge{display:inline-block; background:#c98a2b; color:#fff; font-size:11px; font-weight:600; padding:2px 8px; border-radius:20px; margin-right:6px; text-transform:none; letter-spacing:0;}
+  .alt-desc{font-size:12.5px; color:var(--text-2); line-height:1.55; margin-bottom:11px;}
+  .alt-btn{height:36px; padding:0 16px; font-size:13px; font-family:var(--font); font-weight:500; color:#fff; background:#c98a2b; border:none; border-radius:var(--radius); cursor:pointer;}
+  .alt-btn:hover{background:#b5771f;}
   .bes-wrap{border-top:1px solid var(--border); margin-top:16px; padding-top:14px;}
   .bes-wrap textarea{
     width:100%; min-height:58px; padding:9px 11px; font-size:13px; font-family:var(--font);
@@ -216,7 +231,7 @@
       <div class="brand-sub">Sanitär · Heizung · Klimatechnik</div>
     </div>
     <div class="tool-title">
-      <strong>Evoblock Auslegungstool</strong>
+      <strong>Auslegungstool Wärmepumpe</strong>
       Wärmepumpen-Ersteinschätzung
     </div>
   </header>
@@ -378,6 +393,25 @@
           <div class="uwert-hint">Warmwasser-Zirkulation für sofort warmes Wasser an der Zapfstelle. Nur relevant, wenn die Wärmepumpe das Warmwasser bereitet.</div>
         </div>
       </div>
+
+      <div class="grid-in" style="margin-top:16px;">
+        <div>
+          <label class="fld">Solarthermie-Anlage vorhanden?</label>
+          <div class="segment" id="solar">
+            <button type="button" data-solar="nein" class="active">Nein</button>
+            <button type="button" data-solar="ja">Ja</button>
+          </div>
+          <div class="uwert-hint">Solarthermie und Wärmepumpe arbeiten oft gegeneinander und erhöhen die Taktzahl der WP. In der Regel wird die Solaranlage daher stillgelegt.</div>
+        </div>
+        <div id="solar-demontage-wrap" style="display:none;">
+          <label class="fld">Solarthermie demontieren?</label>
+          <div class="segment" id="solar-demontage">
+            <button type="button" data-solardem="ja" class="active">Ja, demontieren</button>
+            <button type="button" data-solardem="nein">Nein, bleibt</button>
+          </div>
+          <div class="uwert-hint">Bei Demontage wird die Solarflüssigkeit in einem Kanister aufgefangen (verbleibt beim Kunden).</div>
+        </div>
+      </div>
     </div>
 
     <div class="bes-wrap">
@@ -480,11 +514,11 @@
     <div class="grid-in" style="margin-bottom:16px;">
       <div>
         <label class="fld">Beheizte Wohnfläche</label>
-        <div class="row"><input type="range" id="flaeche" min="60" max="400" value="120" step="5" style="flex:1;"><span id="flaeche-out" class="val">120 m²</span></div>
+        <div class="row"><input type="range" id="flaeche" min="60" max="800" value="120" step="5" style="flex:1;"><input type="number" id="flaeche-num" value="120" min="20" step="5" class="val-input"><span class="unit">m²</span></div>
       </div>
       <div id="personen-wrap">
         <label class="fld">Personen (Warmwasser)</label>
-        <div class="row"><input type="range" id="personen" min="1" max="8" value="2" step="1" style="flex:1;"><span id="personen-out" class="val">2</span></div>
+        <div class="row"><input type="range" id="personen" min="1" max="16" value="2" step="1" style="flex:1;"><input type="number" id="personen-num" value="2" min="1" step="1" class="val-input"><span class="unit">Pers.</span></div>
       </div>
     </div>
 
@@ -619,6 +653,13 @@
   <div class="block">
     <div class="block-title"><span class="num">4</span> Auslegung</div>
 
+    <label class="fld">Wärmequelle</label>
+    <div class="segment" id="waermequelle" style="margin-bottom:6px;">
+      <button type="button" data-wq="luft" class="active">Luft / Wasser</button>
+      <button type="button" data-wq="sole">Sole / Wasser (Erdwärme)</button>
+    </div>
+    <div class="uwert-hint" id="sole-hint" style="margin-bottom:18px;">Standard ist Luft/Wasser (Evoblock/Aeroblock/Monoblock). Nur umschalten, wenn eine Erdwärme-Anlage mit Sole/Wasser-Wärmepumpe (Geoblock) geplant ist — erfordert Erdsonden-Bohrung.</div>
+
     <label class="fld">Aufgabe der Wärmepumpe</label>
     <div class="segment" id="wp-aufgabe" style="margin-bottom:18px;">
       <button type="button" data-aufgabe="heizung_ww" class="active">Heizung + Warmwasser</button>
@@ -639,12 +680,19 @@
           <select id="sp-was">
             <option value="200">200 Liter</option>
             <option value="300" selected>300 Liter</option>
+            <option value="400">400 Liter</option>
+            <option value="500">500 Liter</option>
+            <option value="600">600 Liter</option>
           </select>
         </div>
         <div>
           <label class="fld">WES · Energiespeicher (Puffer)</label>
           <select id="sp-wes">
+            <option value="70">70 Liter</option>
             <option value="200" selected>200 Liter</option>
+            <option value="500">500 Liter</option>
+            <option value="660">660 Liter</option>
+            <option value="910">910 Liter</option>
           </select>
         </div>
       </div>
@@ -779,7 +827,7 @@
 
   <footer>
     Verbrauchsansatz: Öl l&#215;10 kWh, Gas m³&#215;10 kWh bzw. kWh direkt, jeweils &#215;Wirkungsgrad &#247;1.800 Volllaststunden; vorhandene WP: Strom&#215;JAZ &#247;1.800 h. Gebäudeansatz: Pauschale, bauteilbasierter Konfigurator oder direkte U-Wert-Eingabe (Transmission &#215;&#916;T bei Norm-Innentemperatur 20 °C, zzgl. Lüftungsanteil). Auslegungswert = Mittel aus Verbrauchs- und Gebäudeansatz (bei großer Abweichung Gebäude stärker gewichtet), zzgl. 0,2 kW/Person Warmwasser. AP-Leistung interpoliert aus den Heizleistungskurven der Weishaupt-Fachinformation (Druck-Nr. 83603801, April 2026), Stützpunkte −15/−7/+2/+7 °C, W35–W75.<br>
-    Nennwärmeleistung A−7/W35 (EN 14511): WEB 7/10 = 7,09 · WEB 9/14 = 9,49 · WEB 10/15 = 10,07 · WEB 13/20 = 13,15 kW. SCOP W35: 5,09 / 4,59 / 4,96 / 4,89. Werksauslegung Bivalenztemperatur −5 °C. R290, Vorlauf bis 75 °C. WEB 7/10 + 9/14 einphasig 230 V, WEB 10/15 + 13/20 dreiphasig 400 V.<br><br>
+    Nennwärmeleistung A−7/W35 (EN 14511): Evoblock WEB 7/10 = 7,09 · WEB 9/14 = 9,49 · WEB 10/15 = 10,07 · WEB 13/20 = 13,15 kW. Aeroblock WAB 8 / 11 / 14 (R290, bis 70 °C Vorlauf). Monoblock-Großgeräte WWP LA 20/30-A R (6,8–30,6 kW) und LA 43/60-A R (17,1–60,0 kW) für Mehrfamilienhäuser, Kaskaden bis 840 kW. Werte der Aeroblock- und Großgeräte teils aus den Leistungsdiagrammen der jeweiligen Fachinformation abgelesen — für die verbindliche Auslegung stets das aktuelle Weishaupt-Planungshandbuch bzw. die Auslegungssoftware heranziehen. R290, Werksauslegung Bivalenztemperatur −5 °C.<br><br>
     © Lutz Spring GmbH · Internes Werkzeug zur Angebotserstellung
   </footer>
 
@@ -794,14 +842,28 @@
   var VBh = 1800, WWpP = 0.2;
 
   var geraete = [
-    {name:"WEB 7/10", min:1.7, max:10.0, phase:"230 V", biv:7.09,
+    {name:"WEB 7/10", serie:"Evoblock", typ:"evoblock", min:1.7, max:10.0, phase:"230 V", biv:7.09, db:43, kg:144,
      kurve:{"-15":{35:6.0,45:5.9,55:5.8,65:5.4,75:5.6},"-7":{35:7.09,45:7.0,55:7.0,65:6.7,75:5.6},"2":{35:7.0,45:7.0,55:6.9,65:6.9,75:6.3},"7":{35:8.5,45:8.4,55:8.3,65:8.0,75:7.3}}},
-    {name:"WEB 9/14", min:1.7, max:14.0, phase:"230 V", biv:9.49,
+    {name:"WAB 8", serie:"Aeroblock", typ:"aeroblock", min:1.6, max:8.0, phase:"230 V", biv:6.2, db:49, kg:200,
+     kurve:{"-15":{35:5.6,45:5.5,55:5.4,65:5.1,75:4.8},"-7":{35:6.2,45:6.1,55:6.0,65:5.7,75:5.3},"2":{35:6.2,45:6.1,55:6.0,65:5.8,75:5.5},"7":{35:7.4,45:7.3,55:7.1,65:6.8,75:6.4}}},
+    {name:"WEB 9/14", serie:"Evoblock", typ:"evoblock", min:1.7, max:14.0, phase:"230 V", biv:9.49, db:46, kg:150,
      kurve:{"-15":{35:8.7,45:8.6,55:8.5,65:8.2,75:7.5},"-7":{35:9.49,45:9.4,55:9.3,65:8.5,75:7.0},"2":{35:9.3,45:9.3,55:9.2,65:8.5,75:8.2},"7":{35:9.5,45:9.8,55:10.0,65:9.3,75:9.0}}},
-    {name:"WEB 10/15", min:2.7, max:15.0, phase:"400 V", biv:10.07,
+    {name:"WAB 11", serie:"Aeroblock", typ:"aeroblock", min:1.6, max:11.0, phase:"230 V", biv:6.9, db:49, kg:207,
+     kurve:{"-15":{35:6.2,45:6.1,55:6.0,65:5.7,75:5.3},"-7":{35:6.9,45:6.8,55:6.7,65:6.4,75:5.9},"2":{35:6.9,45:6.8,55:6.7,65:6.5,75:6.1},"7":{35:8.3,45:8.2,55:8.0,65:7.6,75:7.1}}},
+    {name:"WEB 10/15", serie:"Evoblock", typ:"evoblock", min:2.7, max:15.0, phase:"400 V", biv:10.07, db:46, kg:166,
      kurve:{"-15":{35:8.7,45:8.6,55:8.5,65:8.3,75:8.0},"-7":{35:10.07,45:10.0,55:9.9,65:9.5,75:9.0},"2":{35:9.8,45:9.8,55:9.7,65:9.6,75:9.6},"7":{35:11.0,45:10.9,55:10.8,65:10.5,75:10.2}}},
-    {name:"WEB 13/20", min:3.2, max:20.0, phase:"400 V", biv:13.15,
-     kurve:{"-15":{35:12.5,45:12.4,55:12.3,65:12.0,75:11.5},"-7":{35:13.15,45:13.0,55:12.9,65:12.5,75:12.3},"2":{35:13.5,45:13.5,55:13.4,65:13.0,75:13.2},"7":{35:15.0,45:14.9,55:14.8,65:14.5,75:14.0}}}
+    {name:"WAB 14", serie:"Aeroblock", typ:"aeroblock", min:4.1, max:14.0, phase:"400 V", biv:11.2, db:41, kg:260,
+     kurve:{"-15":{35:10.0,45:9.9,55:9.7,65:9.3,75:8.7},"-7":{35:11.2,45:11.0,55:10.8,65:10.3,75:9.6},"2":{35:11.2,45:11.0,55:10.8,65:10.5,75:9.9},"7":{35:13.0,45:12.8,55:12.5,65:11.9,75:11.2}}},
+    {name:"WEB 13/20", serie:"Evoblock", typ:"evoblock", min:3.2, max:20.0, phase:"400 V", biv:13.15, db:45, kg:205,
+     kurve:{"-15":{35:12.5,45:12.4,55:12.3,65:12.0,75:11.5},"-7":{35:13.15,45:13.0,55:12.9,65:12.5,75:12.3},"2":{35:13.5,45:13.5,55:13.4,65:13.0,75:13.2},"7":{35:15.0,45:14.9,55:14.8,65:14.5,75:14.0}}},
+    {name:"WWP LA 20/30-A R", serie:"", typ:"gross", min:6.8, max:30.6, phase:"400 V", biv:20.0, db:54, kg:340,
+     kurve:{"-15":{35:17.5,45:17.0,55:16.5,65:16.0,75:15.5},"-7":{35:20.5,45:20.0,55:19.5,65:19.0,75:18.0},"2":{35:17.5,45:17.0,55:16.5,65:16.5,75:16.0},"7":{35:20.0,45:19.5,55:19.0,65:18.5,75:17.5}}},
+    {name:"WWP LA 43/60-A R", serie:"", typ:"gross", min:17.1, max:60.0, phase:"400 V", biv:39.0, db:58, kg:490,
+     kurve:{"-15":{35:33.0,45:33.0,55:34.0,65:37.0,75:36.0},"-7":{35:39.0,45:38.0,55:40.0,65:42.0,75:40.0},"2":{35:36.0,45:35.0,55:35.0,65:35.0,75:34.0},"7":{35:40.0,45:37.0,55:37.0,65:36.0,75:35.0}}},
+    {name:"WGB 8", serie:"Geoblock", typ:"sole", min:1.7, max:8.6, phase:"400 V", biv:8.6, db:39, kg:190,
+     kurve:{"-15":{35:8.6,45:8.4,55:8.1,65:7.6,75:7.6},"-7":{35:8.6,45:8.4,55:8.1,65:7.6,75:7.6},"2":{35:8.6,45:8.4,55:8.1,65:7.6,75:7.6},"7":{35:8.8,45:8.6,55:8.3,65:7.8,75:7.8}}},
+    {name:"WGB 14", serie:"Geoblock", typ:"sole", min:2.0, max:13.5, phase:"400 V", biv:13.5, db:39, kg:195,
+     kurve:{"-15":{35:13.5,45:13.2,55:12.7,65:12.0,75:12.0},"-7":{35:13.5,45:13.2,55:12.7,65:12.0,75:12.0},"2":{35:13.5,45:13.2,55:12.7,65:12.0,75:12.0},"7":{35:13.8,45:13.5,55:13.0,65:12.3,75:12.3}}}
   ];
   var stuetzTemp = [-15, -7, 2, 7];
 
@@ -831,6 +893,7 @@
   }
 
   function el(id){ return document.getElementById(id); }
+  function geraeteBez(g){ return g.serie ? "Weishaupt "+g.serie+" "+g.name : "Weishaupt "+g.name; }
   function r1(x){ return (Math.round(x*10)/10).toString().replace(".",","); }
   function r0(x){ return Math.round(x).toString(); }
 
@@ -840,8 +903,12 @@
   var altVlBekannt = "nein";      // nein | ja
   var abwasser = "ja";            // ja | nein
   var zirkulation = "nein";       // ja | nein
+  var solar = "nein";             // ja | nein — Solarthermie vorhanden
+  var solarDemontage = "ja";      // ja | nein — nur relevant wenn solar==ja
   var speicherKonzept = "getrennt"; // getrennt (WAS+WES) | wms
   var wpAufgabe = "heizung_ww";   // heizung_ww | nur_heizung
+  var waermequelle = "luft";      // luft | sole
+  var aeroblockAktiv = false;     // true, wenn Nutzer die Aeroblock-Alternative bewusst gewählt hat
   var heizflaeche = null;   // null = noch keine Auswahl
   var vlManuell = false;    // true, sobald der Nutzer die VL selbst ändert
 
@@ -983,10 +1050,45 @@
     });
   });
 
+  // Solarthermie vorhanden -> ggf. Demontage-Frage einblenden
+  function solarAnwenden(){
+    document.querySelectorAll("#solar button").forEach(function(x){ x.classList.toggle("active", x.getAttribute("data-solar")===solar); });
+    el("solar-demontage-wrap").style.display = solar === "ja" ? "block" : "none";
+    document.querySelectorAll("#solar-demontage button").forEach(function(x){ x.classList.toggle("active", x.getAttribute("data-solardem")===solarDemontage); });
+  }
+  document.querySelectorAll("#solar button").forEach(function(b){
+    b.addEventListener("click", function(){
+      solar = b.getAttribute("data-solar");
+      solarAnwenden();
+      calc(); arbeitsstandSichern();
+    });
+  });
+  document.querySelectorAll("#solar-demontage button").forEach(function(b){
+    b.addEventListener("click", function(){
+      solarDemontage = b.getAttribute("data-solardem");
+      solarAnwenden();
+      calc(); arbeitsstandSichern();
+    });
+  });
+
   // ---- Zusätzlich benötigte Komponenten ----
   function komponentenErmitteln(gewaehlt, hlFinal){
     // Nur objektabhängige Zusatzpositionen, die NICHT im Standardangebot enthalten sind.
     var k = [];
+
+    // --- Solarthermie-Demontage ---
+    if(solar === "ja" && solarDemontage === "ja"){
+      k.push({art:"pflicht", name:"Leerer Kanister für Solarflüssigkeit",
+        desc:"Zum Auffangen der Solarflüssigkeit beim Rückbau der Solarthermie-Anlage. Der Kanister verbleibt beim Kunden (Entsorgung bzw. Weiterverwendung durch den Kunden)."});
+    }
+
+    // --- Erdwärmequelle (nur bei Sole/Wasser) ---
+    if(waermequelle === "sole"){
+      k.push({art:"pflicht", name:"Erdwärmesonde inkl. Bohrung",
+        desc:"Sole/Wasser erfordert die Erschließung der Erdwärmequelle. Sondendimensionierung nach VDI 4640 (Entzugsleistung je nach Bodenverhältnissen ca. 35–50 W/m). Behördliche Genehmigung erforderlich. Komplettservice über Weishaupt-Partner BauGrund Süd möglich (Bohrung, Genehmigung, 10 Jahre Garantie auf Material und Entzugsleistung)."});
+      k.push({art:"pflicht", name:"Soleverteiler + Solekreis-Zubehör",
+        desc:"Soleverteiler, Solekreis-Befüllung (Wasser-Glykol-Gemisch), Membranausdehnungsgefäß Solekreis, Solekreis-Sicherheitsgruppe."});
+    }
 
     // --- Speicher (Ausführung objektabhängig nach Platzverhältnissen) ---
     if(wpAufgabe === "nur_heizung"){
@@ -1052,7 +1154,7 @@
 
     // --- Objektabhängige Prüfpunkte ---
     k.push({art:"option", name:"Schallgutachten / Schallschutzmaßnahmen",
-      desc:"Bei enger Bebauung: "+ (gewaehlt.name==="WEB 7/10" ? "43" : gewaehlt.name==="WEB 13/20" ? "45" : "46") +" dB(A) Schallleistung, Abstand zu schutzbedürftigen Räumen mit dem Weishaupt-Schallrechner prüfen."});
+      desc:"Bei enger Bebauung: "+ (gewaehlt.db||46) +" dB(A) Schallleistung, Abstand zu schutzbedürftigen Räumen mit dem Weishaupt-Schallrechner prüfen."});
     if(heizflaeche === "fbh" || heizflaeche === "beides"){
       k.push({art:"option", name:"Kühlfunktion über Fußbodenheizung",
         desc:"Evoblock ist reversibel — Taupunktwächter und geeignete Regelung erforderlich."});
@@ -1128,6 +1230,22 @@
     b.addEventListener("click", function(){
       wpAufgabe = b.getAttribute("data-aufgabe");
       wpAufgabeAnwenden();
+      calc();
+      arbeitsstandSichern();
+    });
+  });
+
+  // Wärmequelle: Luft (Standard) oder Sole (Erdwärme)
+  function waermequelleAnwenden(){
+    document.querySelectorAll("#waermequelle button").forEach(function(x){ x.classList.toggle("active", x.getAttribute("data-wq")===waermequelle); });
+    el("sole-hint").style.display = waermequelle === "sole" ? "block" : "none";
+    // Bei Sole ist die Aeroblock-Ausweichoption gegenstandslos
+    if(waermequelle === "sole") aeroblockAktiv = false;
+  }
+  document.querySelectorAll("#waermequelle button").forEach(function(b){
+    b.addEventListener("click", function(){
+      waermequelle = b.getAttribute("data-wq");
+      waermequelleAnwenden();
       calc();
       arbeitsstandSichern();
     });
@@ -1263,15 +1381,12 @@
   }
 
   function calc(){
-    var flaeche = parseFloat(el("flaeche").value);
-    var personen = parseFloat(el("personen").value);
+    var flaeche = parseFloat(el("flaeche-num").value) || 0;
+    var personen = parseFloat(el("personen-num").value) || 1;
     var apTemp = parseFloat(el("ap").value);
     var normAT = parseFloat(el("norm-at").value);
     var vl = parseFloat(el("vl").value);
     var altVlInfo = altVlBewerten(vl);
-
-    el("flaeche-out").textContent = flaeche + " m²";
-    el("personen-out").textContent = personen;
 
     var hlVerbrauch = verbrauchHeizlast();
     var geb = gebaeudeHeizlast(flaeche);
@@ -1318,11 +1433,41 @@
     var lastAmBivalenzpunkt = hlFinal * lastAnteilBiv;
 
     var monoTol = el("streng").checked ? 1.0 : 1.15;
-    var gewaehlt = null;
-    for(var i=0;i<geraete.length;i++){
-      if(apLeistungKurve(geraete[i], apTemp, vl)*monoTol >= lastAmBivalenzpunkt){ gewaehlt = geraete[i]; break; }
+
+    var evoWahl = null, aeroWahl = null, gewaehlt = null;
+
+    if(waermequelle === "sole"){
+      // Sole/Wasser: nur Geoblock-Geräte
+      for(var s=0;s<geraete.length;s++){
+        if(geraete[s].typ !== "sole") continue;
+        if(apLeistungKurve(geraete[s], apTemp, vl)*monoTol >= lastAmBivalenzpunkt){ gewaehlt = geraete[s]; break; }
+      }
+      if(!gewaehlt){
+        // größtes Sole-Gerät als Rückfall
+        for(var s2=geraete.length-1;s2>=0;s2--){ if(geraete[s2].typ==="sole"){ gewaehlt = geraete[s2]; break; } }
+      }
+      evoWahl = gewaehlt;
+      aeroblockAktiv = false;
+    } else {
+      // Luft/Wasser: Evoblock und große Monoblock, Aeroblock übersprungen (teurer Vorgänger)
+      for(var i=0;i<geraete.length;i++){
+        if(geraete[i].typ === "aeroblock" || geraete[i].typ === "sole") continue;
+        if(apLeistungKurve(geraete[i], apTemp, vl)*monoTol >= lastAmBivalenzpunkt){ evoWahl = geraete[i]; break; }
+      }
+      if(!evoWahl){
+        for(var i2=geraete.length-1;i2>=0;i2--){ if(geraete[i2].typ!=="sole"){ evoWahl = geraete[i2]; break; } }
+      }
+
+      // Passende Aeroblock als Alternative (kleinste, die die Last deckt)
+      for(var j=0;j<geraete.length;j++){
+        if(geraete[j].typ !== "aeroblock") continue;
+        if(apLeistungKurve(geraete[j], apTemp, vl)*monoTol >= lastAmBivalenzpunkt){ aeroWahl = geraete[j]; break; }
+      }
+      if(!aeroWahl){ aeroblockAktiv = false; }
+
+      // Das tatsächlich ausgelegte Gerät: Aeroblock nur wenn bewusst aktiviert
+      gewaehlt = (aeroblockAktiv && aeroWahl) ? aeroWahl : evoWahl;
     }
-    if(!gewaehlt){ gewaehlt = geraete[geraete.length-1]; }
 
     var apLeistung = apLeistungKurve(gewaehlt, apTemp, vl);
     var deckung = Math.min(100, apLeistung/lastAmBivalenzpunkt*100);
@@ -1342,7 +1487,7 @@
     }
 
     var html = '<div class="rec-card">';
-    html += '<div class="rec-head"><div class="rec-name">Weishaupt Evoblock '+gewaehlt.name+'</div>';
+    html += '<div class="rec-head"><div class="rec-name">'+geraeteBez(gewaehlt)+'</div>';
     html += '<div class="rec-meta">R290 · Modulation '+r1(gewaehlt.min)+'–'+r1(gewaehlt.max)+' kW · '+gewaehlt.phase+'</div></div>';
     html += '<div class="rec-stats">';
     html += '<div class="rec-stat"><div class="rec-stat-lbl">Gebäudelast bei '+apTemp+' °C</div><div class="rec-stat-val">'+r1(lastAmBivalenzpunkt)+' kW</div></div>';
@@ -1352,7 +1497,16 @@
     html += '</div>';
     html += '<div class="badge '+statusCls+'">'+statusTxt+'</div>';
 
-    // Zweiter Betriebspunkt: Norm-Außentemperatur
+    // Zweiter Betriebspunkt: Norm-Außentemperatur (nur bei Luft/Wasser relevant)
+    if(waermequelle === "sole"){
+      html += '<div style="border-top:1px solid var(--border); margin-top:14px; padding-top:14px;">';
+      if(heizstabAnteil > 0.05){
+        html += '<div class="badge b-warn" style="margin-bottom:0;">Die Heizlast liegt über der Dauerleistung der '+gewaehlt.name+' ('+r1(gewaehlt.max)+' kW). Für reinen Sole-Betrieb ohne nennenswerten Heizstab-Einsatz größere Sonde bzw. Kaskade prüfen — oder die integrierten Backup-Heizstäbe (2 × 3,5 kW) an den kältesten Tagen zuschalten. Sole liefert ganzjährig konstante Quellentemperatur.</div>';
+      } else {
+        html += '<div class="badge b-success" style="margin-bottom:0;">Monovalenter Betrieb — die Sole/Wasser-Wärmepumpe deckt die volle Heizlast von '+r1(hlFinal)+' kW auch an den kältesten Tagen, da die Erdreichtemperatur ganzjährig nahezu konstant bleibt. Die integrierten Elektroheizstäbe (2 × 3,5 kW) dienen nur als Backup.</div>';
+      }
+      html += '</div>';
+    } else {
     html += '<div style="border-top:1px solid var(--border); margin-top:14px; padding-top:14px;">';
     html += '<div style="font-size:13px; color:var(--text-2); margin-bottom:10px;">Bei Norm-Außentemperatur '+normAT+' °C (kälteste Auslegungstage)</div>';
     html += '<div class="rec-stats" style="margin-bottom:10px;">';
@@ -1370,13 +1524,47 @@
       html += '<div class="badge b-success" style="margin-bottom:0;">Monovalent — die Wärmepumpe deckt auch die Norm-Außentemperatur '+normAT+' °C vollständig ohne Heizstab.</div>';
     }
     html += '</div>';
+    }
 
     if(taktRisiko){
       html += '<div class="badge b-warn" style="margin-top:11px;">↻ Taktungsrisiko im Teillastbetrieb: Last am Bivalenzpunkt ('+r1(lastAmBivalenzpunkt)+' kW) nahe der unteren Modulationsgrenze ('+r1(gewaehlt.min)+' kW). Ausreichendes Anlagenvolumen bzw. Pufferspeicher vorsehen.</div>';
     }
-    var bivTxt = "Auslegung monoenergetisch mit Bivalenzpunkt "+apTemp+" °C bei einer Norm-Außentemperatur von "+normAT+" °C. Bei 0 Sperrstunden (§14a EnWG, Neuanlage) unkritisch. Weishaupt-Werksauslegung: Bivalenztemperatur −5 °C. Vorlauf bis 75 °C über R290 möglich.";
+    var bivTxt = (waermequelle === "sole")
+      ? "Sole/Wasser-Auslegung (Geoblock). Die Erdwärmequelle liefert nahezu konstante Leistung über das ganze Jahr — monovalenter Betrieb ohne nennenswerte Elektro-Zusatzheizung. Vorlauf bis 65 °C, R290. Voraussetzung: fachgerecht dimensionierte Erdsonden-Bohrung (Entzugsleistung nach VDI 4640, Genehmigung erforderlich)."
+      : "Auslegung monoenergetisch mit Bivalenzpunkt "+apTemp+" °C bei einer Norm-Außentemperatur von "+normAT+" °C. Bei 0 Sperrstunden (§14a EnWG, Neuanlage) unkritisch. Weishaupt-Werksauslegung: Bivalenztemperatur −5 °C. Vorlauf bis 75 °C über R290 möglich.";
     html += '<div class="note" style="margin-top:11px;">ℹ '+bivTxt+'</div></div>';
+
+    // Aeroblock-Alternative (Vorgänger, teurer) — nur anzeigen, wenn passend und nicht ohnehin gewählt
+    if(aeroWahl){
+      var aeroLeistung = apLeistungKurve(aeroWahl, apTemp, vl);
+      var aeroDeckung = Math.min(100, aeroLeistung/lastAmBivalenzpunkt*100);
+      if(aeroblockAktiv){
+        // Aeroblock ist aktiv -> Hinweis mit Möglichkeit, zur Evoblock zurückzuwechseln
+        html += '<div class="alt-card aktiv">';
+        html += '<div class="alt-head"><span class="alt-badge">Ausweichlösung aktiv</span> '+geraeteBez(aeroWahl)+'</div>';
+        html += '<div class="alt-desc">Die Aeroblock (Vorgängermodell, höherer Preis) ist als Auslegung aktiviert — nur wählen, wenn Baubedingungen die Evoblock ausschließen. Standardempfehlung wäre '+geraeteBez(evoWahl)+'.</div>';
+        html += '<button type="button" class="alt-btn" id="aero-toggle">Zurück zur Evoblock ('+evoWahl.name+')</button>';
+        html += '</div>';
+      } else {
+        // Aeroblock als graue, aktivierbare Alternative
+        html += '<div class="alt-card">';
+        html += '<div class="alt-head">Alternative: '+geraeteBez(aeroWahl)+' <span class="alt-sub">Vorgängermodell</span></div>';
+        html += '<div class="alt-desc">Würde die Anforderung ebenfalls erfüllen (Leistung ≈ '+r1(aeroLeistung)+' kW, '+r0(aeroDeckung)+' % Deckung am Bivalenzpunkt), ist aber teurer. Nur aktivieren, wenn die Evoblock aus baulichen Gründen vor Ort nicht möglich ist.</div>';
+        html += '<button type="button" class="alt-btn" id="aero-toggle">Aeroblock stattdessen auslegen</button>';
+        html += '</div>';
+      }
+    }
+
     el("empfehlung").innerHTML = html;
+
+    // Umschalt-Button verbinden
+    var aeroBtn = el("aero-toggle");
+    if(aeroBtn){
+      aeroBtn.addEventListener("click", function(){
+        aeroblockAktiv = !aeroblockAktiv;
+        calc(); arbeitsstandSichern();
+      });
+    }
 
     // Zusätzlich benötigte Komponenten
     var komponenten = komponentenErmitteln(gewaehlt, hlFinal);
@@ -1481,6 +1669,9 @@
     b += zeile("Speicherkonzept", spTxt);
     b += zeile("Abwasseranschluss", abwasser === "ja" ? "vorhanden" : "nicht vorhanden");
     b += zeile("Zirkulationsleitung", zirkulation === "ja" ? "vorhanden" : "nicht vorhanden");
+    if(solar === "ja"){
+      b += zeile("Solarthermie-Anlage", solarDemontage === "ja" ? "vorhanden — wird demontiert" : "vorhanden — bleibt bestehen");
+    }
     el("ps-bestand").innerHTML = b;
 
     // Heizlast
@@ -1493,7 +1684,7 @@
     el("ps-heizlast").innerHTML = h;
 
     // Ergebnis
-    var res = '<div class="ps-r-name">Weishaupt Evoblock '+d.gewaehlt.name+'</div>';
+    var res = '<div class="ps-r-name">'+geraeteBez(d.gewaehlt)+'</div>';
     res += '<div class="ps-r-sub">R290 · Modulation '+r1(d.gewaehlt.min)+'–'+r1(d.gewaehlt.max)+' kW · '+d.gewaehlt.phase+' · Vorlauf bis 75 °C</div>';
     res += '<table>';
     res += zeile("<strong>Am Bivalenzpunkt "+d.apTemp+" °C</strong>", "");
@@ -1550,23 +1741,22 @@
 
     // Seitentitel = Dateiname beim Speichern als PDF
     // Schrägstriche (z. B. "WEB 13/20") würden im Dateinamen stören -> ersetzen
-    var geraetSauber = d.gewaehlt.name.replace(/\//g, "-");
     var titel = "Lutz Spring Auslegungstool";
     if(name) titel += " - " + name;
-    titel += " - Weishaupt Evoblock " + geraetSauber;
+    titel += " - " + geraeteBez(d.gewaehlt).replace(/\//g,"-");
     document.title = titel;
   }
 
   // ---- Kundenliste (lokal gespeichert, überlebt Schließen/Neuöffnen) ----
   var STORAGE_KEY = "lutzspring_evoblock_kunden_v2";
   var WORK_KEY = "lutzspring_evoblock_work_v2";
-  var alleInputs = ["flaeche","personen","ap","norm-at","vl","streng","pauschale","oel-verbrauch","oel-eta","gas-verbrauch","gas-eta","wp-strom","wp-jaz","d-baujahr","d-fenster","d-wand-mat","d-wand-dicke","d-wand-daemm","d-dach","u-wand-a","u-wand-u","u-dach-a","u-dach-u","u-fen-a","u-fen-u","u-bod-a","u-bod-u","hf-hk-anzahl","hf-beides-hk","hf-beides-vlhk","hf-beides-vlfbh","alt-vl-wert","alt-vl-komfort","bes-bestand","bes-heizflaechen","bes-gebaeude","bes-auslegung","sp-was","sp-wes","sp-wms"];
+  var alleInputs = ["flaeche","flaeche-num","personen","personen-num","ap","norm-at","vl","streng","pauschale","oel-verbrauch","oel-eta","gas-verbrauch","gas-eta","wp-strom","wp-jaz","d-baujahr","d-fenster","d-wand-mat","d-wand-dicke","d-wand-daemm","d-dach","u-wand-a","u-wand-u","u-dach-a","u-dach-u","u-fen-a","u-fen-u","u-bod-a","u-bod-u","hf-hk-anzahl","hf-beides-hk","hf-beides-vlhk","hf-beides-vlfbh","alt-vl-wert","alt-vl-komfort","bes-bestand","bes-heizflaechen","bes-gebaeude","bes-auslegung","sp-was","sp-wes","sp-wms"];
 
   var kunden = [];        // [{id, name, stand}]
   var aktuelleId = null;  // id des geladenen Kunden, null = ungespeicherter Arbeitsstand
 
   function standErfassen(){
-    var stand = { heizart: heizart, gebMode: gebMode, gasEinheit: gasEinheit, altVlBekannt: altVlBekannt, abwasser: abwasser, zirkulation: zirkulation, speicherKonzept: speicherKonzept, wpAufgabe: wpAufgabe, heizflaeche: heizflaeche, vlManuell: vlManuell, fbhVerteiler: fbhVerteiler, beidesVerteiler: beidesVerteiler, felder: {} };
+    var stand = { heizart: heizart, gebMode: gebMode, gasEinheit: gasEinheit, altVlBekannt: altVlBekannt, abwasser: abwasser, zirkulation: zirkulation, solar: solar, solarDemontage: solarDemontage, speicherKonzept: speicherKonzept, wpAufgabe: wpAufgabe, waermequelle: waermequelle, aeroblockAktiv: aeroblockAktiv, heizflaeche: heizflaeche, vlManuell: vlManuell, fbhVerteiler: fbhVerteiler, beidesVerteiler: beidesVerteiler, felder: {} };
     alleInputs.forEach(function(id){
       var e = el(id);
       if(!e) return;
@@ -1596,12 +1786,18 @@
     vlManuell = !!stand.vlManuell;
     wpAufgabe = stand.wpAufgabe || "heizung_ww";
     wpAufgabeAnwenden();
+    waermequelle = stand.waermequelle || "luft";
+    waermequelleAnwenden();
+    aeroblockAktiv = !!stand.aeroblockAktiv;
     altVlBekannt = stand.altVlBekannt || "nein";
     altVlAnwenden();
     abwasser = stand.abwasser || "ja";
     document.querySelectorAll("#abwasser button").forEach(function(x){ x.classList.toggle("active", x.getAttribute("data-abw")===abwasser); });
     zirkulation = stand.zirkulation || "nein";
     document.querySelectorAll("#zirkulation button").forEach(function(x){ x.classList.toggle("active", x.getAttribute("data-zirk")===zirkulation); });
+    solar = stand.solar || "nein";
+    solarDemontage = stand.solarDemontage || "ja";
+    solarAnwenden();
     speicherKonzept = stand.speicherKonzept || "getrennt";
     speicherAnwenden();
     if(stand.fbhVerteiler && stand.fbhVerteiler.length){
@@ -1627,6 +1823,14 @@
         if(!e || !(id in stand.felder)) return;
         if(e.type === "checkbox"){ e.checked = stand.felder[id]; }
         else { e.value = stand.felder[id]; }
+      });
+      // Regler an wiederhergestellte Zahlenwerte angleichen (begrenzt aufs Regler-Maximum)
+      [["flaeche","flaeche-num"],["personen","personen-num"]].forEach(function(pair){
+        var regler = el(pair[0]), zahl = el(pair[1]);
+        if(regler && zahl){
+          var v = parseFloat(zahl.value), max = parseFloat(regler.max), min = parseFloat(regler.min);
+          if(!isNaN(v)) regler.value = v > max ? max : (v < min ? min : v);
+        }
       });
     }
   }
@@ -1756,17 +1960,38 @@
   });
 
   // Alle Inputs: neu berechnen + Arbeitsstand sichern
+  // Regler <-> Zahlenfeld synchron halten (Zahlenfeld kann über Regler-Max hinausgehen)
+  function koppleReglerZahl(reglerId, zahlId){
+    var regler = el(reglerId), zahl = el(zahlId);
+    if(!regler || !zahl) return;
+    regler.addEventListener("input", function(){
+      zahl.value = regler.value;
+      calc(); arbeitsstandSichern();
+    });
+    zahl.addEventListener("input", function(){
+      var v = parseFloat(zahl.value);
+      // Regler folgt nur bis zu seinem Maximum, das Zahlenfeld darf höher
+      if(!isNaN(v)){
+        var max = parseFloat(regler.max), min = parseFloat(regler.min);
+        regler.value = v > max ? max : (v < min ? min : v);
+      }
+      calc(); arbeitsstandSichern();
+    });
+  }
+  koppleReglerZahl("flaeche", "flaeche-num");
+  koppleReglerZahl("personen", "personen-num");
+
   alleInputs.forEach(function(id){
     var e = el(id);
+    // Regler und ihre Zahlenfelder haben eigene Handler (koppleReglerZahl) - hier überspringen
+    if(id==="flaeche"||id==="personen"||id==="flaeche-num"||id==="personen-num"){
+      return;
+    }
     if(e){
       e.addEventListener("input", function(){ calc(); arbeitsstandSichern(); });
       e.addEventListener("change", function(){ calc(); arbeitsstandSichern(); });
     }
   });
-
-  // ---- Start ----
-  kundenLaden();
-  dropdownAufbauen();
   // Letzten Arbeitsstand wiederherstellen
   var workGeladen = false;
   try{
